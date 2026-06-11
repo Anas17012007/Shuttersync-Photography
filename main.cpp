@@ -13,9 +13,11 @@ struct visitor
     string username;
     string password;
 };
-const int maks_visitor=100;
+const int maks_visitor = 100;
 int jumlahvisitor = 0;
 visitor visit[maks_visitor];
+string username_aktif;
+bool admin_aktif = false;
 admin daftarAdmin[6] = {
     {"Solose", "Solose17012007"},
     {"Cayla", "Cayla123"},
@@ -32,7 +34,7 @@ void mainmenu()
     cout << "==================================================\n";
     cout << "1. Admin \n";
     cout << "2. Visitor\n";
-    cout << "3. Keluar\n";
+    cout << "0. Keluar\n";
     cout << "==================================================\n";
     cout << "Pilih opsi (1-3): ";
     cin >> pilihan;
@@ -45,7 +47,7 @@ void mainmenu()
         cout << "==================================================\n";
         cout << "1. Sign In (Masuk)\n";
         cout << "2. Sign Up (Daftar Akun Baru)\n";
-        cout << "3. Kembali ke Menu Utama\n";
+        cout << "0. Kembali ke Menu Utama\n";
         cout << "==================================================\n";
         cout << "Pilih opsi (1-3): ";
         cin >> pilihanVisitor;
@@ -57,9 +59,9 @@ void mainmenu()
             cout << "               REGISTRASI VISITOR                 \n";
             cout << "==================================================\n";
             cout << "Masukkan Username Baru : ";
-            cin >> visit[jumlahvisitor].username;
+            getline(cin >> ws, visit[jumlahvisitor].username);
             cout << "Masukkan Password Baru : ";
-            cin >> visit[jumlahvisitor].password;
+            getline(cin >> ws, visit[jumlahvisitor].password);
             cout << "--------------------------------------------------\n";
 
             ofstream fileVisitor("visitor.txt", ios::app);
@@ -79,5 +81,105 @@ void mainmenu()
             }
             cout << "==================================================\n";
         }
+        else if (pilihanVisitor == 0)
+        {
+            return;
+        }
+        else if (pilihanVisitor == 1)
+        {
+            string tempvisitorUsername, tempvisitorPassword;
+            cout << "==================================================\n";
+            cout << "               SIGN IN VISITOR                    \n";
+            cout << "==================================================\n";
+            cout << "Masukkan Username Baru : ";
+            getline(cin >> ws, tempvisitorUsername);
+            cout << "Masukkan Password Baru : ";
+            getline(cin >> ws, tempvisitorPassword);
+            cout << "--------------------------------------------------\n";
+            ifstream fileVisitor("visitor.txt");
+            bool berhasil = false;
+            string baris;
+            while (getline(fileVisitor, baris))
+            {
+                int posisi = baris.find(" | ");
+                if (posisi != string::npos)
+                {
+                    string usernameDiFile = baris.substr(0, posisi);
+                    string passwordDiFile = baris.substr(posisi + 3); 
+                    if (usernameDiFile == tempvisitorUsername && passwordDiFile == tempvisitorPassword)
+                    {
+                        berhasil = true;
+                        break;
+                    }
+                }
+            }
+            fileVisitor.close();
+
+            if (berhasil)
+            {
+                username_aktif = tempvisitorUsername; 
+                cout << "Sign In Berhasil! Selamat datang, " << username_aktif << endl;
+                system("pause");
+            }
+            else
+            {
+                cout << "Username atau password salah!\n";
+                system("pause");
+            }
+        }
+    } else if (pilihan==0)
+    {
+            cout << "Terima kasih telah berkunjung. Sampai jumpa!\n";
+            exit(0);
+    } else if (pilihan==1)
+    {
+        int pilihanAdmin;
+        cout << "==================================================\n";
+        cout << "                  MENU ADMIN                      \n";
+        cout << "==================================================\n";
+        cout << "1. Sign In (Masuk)\n";
+        cout << "0. Kembali\n";
+        cout << "==================================================\n";
+        cout << "Pilih opsi (1-2): ";
+        cin >> pilihanAdmin;
+        cout << "--------------------------------------------------\n";
+        system("cls");
+        if (pilihanAdmin == 1) {
+            string tempadminUsername, tempadminPassword;
+            cout << "==================================================\n";
+            cout << "               SIGN IN ADMIN                    \n";
+            cout << "==================================================\n";
+            cout << "Masukkan Username Baru : ";
+            getline(cin >> ws, tempadminUsername);
+            cout << "Masukkan Password Baru : ";
+            getline(cin >> ws, tempadminPassword);
+            cout << "--------------------------------------------------\n";
+            bool berhasil = false;
+            for (int i = 0; i < 6; i++)
+            {
+                if (daftarAdmin[i].username == tempadminUsername && daftarAdmin[i].password == tempadminPassword)
+                {
+                    berhasil = true;
+                    break;
+                }
+            }
+            if (berhasil)
+            {
+              
+                bool admin_aktif = true;
+                cout << "Sign In Berhasil! Selamat datang, " << tempadminUsername << endl;
+                system("pause");
+            }
+            else
+            {
+                cout << "Username atau password salah!\n";
+                system("pause");
+            }
+        } else if (pilihanAdmin == 0)
+        {
+            return;
+        }
     }
+    
+    
 }
