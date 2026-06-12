@@ -12,12 +12,36 @@ struct visitor
 {
     string username;
     string password;
+    string nama;
+    string noTelp;
+    string email;
 };
+
+struct reservasi
+{
+    int idReservasi;
+    string usernameVisitor;
+    string namaPaket;
+    string tanggal;
+    int durasi;
+    int harga;
+    int totalBiaya;
+    string status;
+};
+const string DAFTAR_PAKET[4] = {"Wisuda", "Prewedding", "Keluarga", "Produk"};
+const int HARGA_PAKET[4] = {700000, 150000, 750000, 400000};
 const int maks_visitor = 100;
+const int maks_reservasi = 100;
+
 int jumlahvisitor = 0;
+int jumlahreservasi = 0;
+
 visitor visit[maks_visitor];
+reservasi reservasiList[maks_reservasi];
+
 string username_aktif;
 bool admin_aktif = false;
+
 admin daftarAdmin[6] = {
     {"Solose", "Solose17012007"},
     {"Cayla", "Cayla123"},
@@ -25,6 +49,27 @@ admin daftarAdmin[6] = {
     {"Tiara", "Tiara123"},
     {"Putri", "Putri123"},
     {"siapalah", "okgasokgasprabowogibranoranggas"}};
+
+bool cekUsernameDuplikat(string usernameBaru)
+{
+    ifstream fileVisitor("visitor.txt");
+    string baris;
+    while (getline(fileVisitor, baris))
+    {
+        int posisi = baris.find(" | ");
+        if (posisi != string::npos)
+        {
+            string usernameDiFile = baris.substr(0, posisi);
+            if (usernameDiFile == usernameBaru)
+            {
+                fileVisitor.close();
+                return true;
+            }
+        }
+    }
+    fileVisitor.close();
+    return false;
+}
 void mainmenu()
 {
     int pilihan;
@@ -62,24 +107,44 @@ void mainmenu()
             getline(cin >> ws, visit[jumlahvisitor].username);
             cout << "Masukkan Password Baru : ";
             getline(cin >> ws, visit[jumlahvisitor].password);
+            cout << "Masukkan Nama Lengkap  : ";
+            getline(cin >> ws, visit[jumlahvisitor].nama);
+            cout << "Masukkan No. Telepon   : ";
+            getline(cin >> ws, visit[jumlahvisitor].noTelp);
+            cout << "Masukkan Email         : ";
+            getline(cin >> ws, visit[jumlahvisitor].email);
             cout << "--------------------------------------------------\n";
 
-            ofstream fileVisitor("visitor.txt", ios::app);
-            if (fileVisitor.is_open())
+            if (visit[jumlahvisitor].username.empty() ||
+                visit[jumlahvisitor].password.empty() ||
+                visit[jumlahvisitor].nama.empty() ||
+                visit[jumlahvisitor].noTelp.empty())
             {
-                fileVisitor << visit[jumlahvisitor].username << " | " << visit[jumlahvisitor].password << endl;
-                fileVisitor.close();
-                cout << "Registrasi Berhasil! Akun Anda telah terdaftar.\n";
+                cout << "Semua field tidak boleh kosong!\n";
             }
-            if (visit[jumlahvisitor].username.empty() || visit[jumlahvisitor].password.empty())
+            else if (cekUsernameDuplikat(visit[jumlahvisitor].username))
             {
-                cout << "Username/password tidak boleh kosong!\n";
+                cout << "Username sudah digunakan!\n";
             }
             else
             {
-                cout << "Gagal membuka file database untuk menyimpan data.\n";
+                ofstream fileVisitor("visitor.txt", ios::app);
+                if (fileVisitor.is_open())
+                {
+                    fileVisitor << visit[jumlahvisitor].username << " | "
+                                << visit[jumlahvisitor].password << " | "
+                                << visit[jumlahvisitor].nama << " | "
+                                << visit[jumlahvisitor].noTelp << " | "
+                                << visit[jumlahvisitor].email << endl;
+                    fileVisitor.close();
+                    jumlahvisitor++;
+                    cout << "Registrasi Berhasil!\n";
+                }
+                else
+                {
+                    cout << "Gagal membuka file!\n";
+                }
             }
-            cout << "==================================================\n";
         }
         else if (pilihanVisitor == 0)
         {
@@ -91,9 +156,9 @@ void mainmenu()
             cout << "==================================================\n";
             cout << "               SIGN IN VISITOR                    \n";
             cout << "==================================================\n";
-            cout << "Masukkan Username Baru : ";
+            cout << "Masukkan Username : ";
             getline(cin >> ws, tempvisitorUsername);
-            cout << "Masukkan Password Baru : ";
+            cout << "Masukkan Password : ";
             getline(cin >> ws, tempvisitorPassword);
             cout << "--------------------------------------------------\n";
             ifstream fileVisitor("visitor.txt");
@@ -102,10 +167,12 @@ void mainmenu()
             while (getline(fileVisitor, baris))
             {
                 int posisi = baris.find(" | ");
+
                 if (posisi != string::npos)
                 {
+                    int pos1 = baris.find(" | ", posisi + 3);
                     string usernameDiFile = baris.substr(0, posisi);
-                    string passwordDiFile = baris.substr(posisi + 3);
+                    string passwordDiFile = baris.substr(posisi + 3, pos1 - posisi - 3);
                     if (usernameDiFile == tempvisitorUsername && passwordDiFile == tempvisitorPassword)
                     {
                         berhasil = true;
@@ -152,9 +219,9 @@ void mainmenu()
             cout << "==================================================\n";
             cout << "               SIGN IN ADMIN                    \n";
             cout << "==================================================\n";
-            cout << "Masukkan Username Baru : ";
+            cout << "Masukkan Username : ";
             getline(cin >> ws, tempadminUsername);
-            cout << "Masukkan Password Baru : ";
+            cout << "Masukkan Password : ";
             getline(cin >> ws, tempadminPassword);
             cout << "--------------------------------------------------\n";
             bool berhasil = false;
@@ -169,7 +236,7 @@ void mainmenu()
             if (berhasil)
             {
 
-                bool admin_aktif = true;
+                admin_aktif = true;
                 cout << "Sign In Berhasil! Selamat datang, " << tempadminUsername << endl;
                 system("pause");
             }
