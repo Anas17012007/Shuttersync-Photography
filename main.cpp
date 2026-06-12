@@ -183,3 +183,85 @@ void mainmenu()
     
     
 }
+void menuadmin()
+{
+ int pilihan;
+    cout << "==================================================\n";
+    cout << "                  MENU ADMIN                      \n";
+    cout << "==================================================\n";
+    cout << "1. Lihat Data Visitor\n";
+    cout << "2. Manajemen reservasi\n";
+    cout << "3. Laporan\n";
+    cout << "0. Keluar\n";
+    cout << "==================================================\n";
+    cout << "Pilih opsi (1-3): ";
+    cin >> pilihan;
+    cout << "--------------------------------------------------\n";
+    system("cls");
+    switch (pilihan) {
+            case 1:
+                cout << "[Kelola Pelanggan]\n";
+                break;
+            case 2:
+                cout << "[Manajemen Reservasi]\n";
+                break;
+            case 3:
+                cout << "[Laporan]\n";
+                break;
+            case 0:
+                cout << "Keluar dari Menu Admin...\n";
+                break;
+            default:
+                cout << "Pilihan tidak valid!\n";
+        }
+       
+    }
+
+void menuVisitor() {
+    int pilihan;
+        system("cls");
+        cout << "==================================================\n";
+        cout << "                 MENU VISITOR                     \n";
+        cout << "==================================================\n";
+        cout << "Selamat datang, " << username_aktif << "!\n";
+        cout << "--------------------------------------------------\n";
+        cout << "1. Buat Reservasi\n";
+        cout << "2. Lihat Reservasi Saya\n";
+        cout << "3. Batalkan Reservasi\n";
+        cout << "0. Keluar\n";
+        cout << "==================================================\n";
+        cout << "Pilih opsi (0-3): ";
+        cin >> pilihan;
+        cout << "--------------------------------------------------\n";
+
+        switch (pilihan) {
+            case 1:
+                cout << "[Buat Reservasi]\n";
+                break;
+            case 2:
+                cout << "[Lihat Reservasi]\n";
+                break;
+            case 3:
+                cout << "[Batalkan Reservasi]\n";
+                break;
+            case 0:
+                cout << "Keluar dari Menu Visitor...\n";
+                break;
+            default:
+                cout << "Pilihan tidak valid!\n";
+        }
+}
+   
+int main()
+{
+    while (true)
+    {
+        mainmenu();
+        if (admin_aktif) {
+            menuadmin();
+        } else if (!username_aktif.empty()) {
+            menuVisitor();
+        }
+    }
+    return 0;
+}
