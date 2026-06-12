@@ -29,7 +29,7 @@ struct reservasi
     string status;
 };
 const string DAFTAR_PAKET[4] = {"Wisuda", "Prewedding", "Keluarga", "Produk"};
-const int HARGA_PAKET[4] = {700000, 150000, 750000, 400000};
+const int HARGA_PAKET[4] = {700000, 1500000, 750000, 400000};
 const int maks_visitor = 100;
 const int maks_reservasi = 100;
 
@@ -56,7 +56,7 @@ bool cekUsernameDuplikat(string usernameBaru)
     string baris;
     while (getline(fileVisitor, baris))
     {
-        int posisi = baris.find(" | ");
+        size_t posisi = baris.find(" | ");
         if (posisi != string::npos)
         {
             string usernameDiFile = baris.substr(0, posisi);
@@ -166,13 +166,13 @@ void mainmenu()
             string baris;
             while (getline(fileVisitor, baris))
             {
-                int posisi = baris.find(" | ");
+                size_t posisi1 = baris.find(" | ");
 
-                if (posisi != string::npos)
+                if (posisi1 != string::npos)
                 {
-                    int pos1 = baris.find(" | ", posisi + 3);
-                    string usernameDiFile = baris.substr(0, posisi);
-                    string passwordDiFile = baris.substr(posisi + 3, pos1 - posisi - 3);
+                    size_t posisi2 = baris.find(" | ", posisi1 + 3);
+                    string usernameDiFile = baris.substr(0, posisi1);
+                    string passwordDiFile = baris.substr(posisi1 + 3, posisi2 - posisi1 - 3);
                     if (usernameDiFile == tempvisitorUsername && passwordDiFile == tempvisitorPassword)
                     {
                         berhasil = true;
