@@ -105,7 +105,7 @@ void mainmenu()
                 if (posisi != string::npos)
                 {
                     string usernameDiFile = baris.substr(0, posisi);
-                    string passwordDiFile = baris.substr(posisi + 3); 
+                    string passwordDiFile = baris.substr(posisi + 3);
                     if (usernameDiFile == tempvisitorUsername && passwordDiFile == tempvisitorPassword)
                     {
                         berhasil = true;
@@ -117,7 +117,7 @@ void mainmenu()
 
             if (berhasil)
             {
-                username_aktif = tempvisitorUsername; 
+                username_aktif = tempvisitorUsername;
                 cout << "Sign In Berhasil! Selamat datang, " << username_aktif << endl;
                 system("pause");
             }
@@ -127,11 +127,13 @@ void mainmenu()
                 system("pause");
             }
         }
-    } else if (pilihan==0)
+    }
+    else if (pilihan == 0)
     {
-            cout << "Terima kasih telah berkunjung. Sampai jumpa!\n";
-            exit(0);
-    } else if (pilihan==1)
+        cout << "Terima kasih telah berkunjung. Sampai jumpa!\n";
+        exit(0);
+    }
+    else if (pilihan == 1)
     {
         int pilihanAdmin;
         cout << "==================================================\n";
@@ -144,7 +146,8 @@ void mainmenu()
         cin >> pilihanAdmin;
         cout << "--------------------------------------------------\n";
         system("cls");
-        if (pilihanAdmin == 1) {
+        if (pilihanAdmin == 1)
+        {
             string tempadminUsername, tempadminPassword;
             cout << "==================================================\n";
             cout << "               SIGN IN ADMIN                    \n";
@@ -165,7 +168,7 @@ void mainmenu()
             }
             if (berhasil)
             {
-              
+
                 bool admin_aktif = true;
                 cout << "Sign In Berhasil! Selamat datang, " << tempadminUsername << endl;
                 system("pause");
@@ -175,17 +178,16 @@ void mainmenu()
                 cout << "Username atau password salah!\n";
                 system("pause");
             }
-        } else if (pilihanAdmin == 0)
+        }
+        else if (pilihanAdmin == 0)
         {
             return;
         }
     }
-    
-    
 }
 void menuadmin()
 {
- int pilihan;
+    int pilihan;
     cout << "==================================================\n";
     cout << "                  MENU ADMIN                      \n";
     cout << "==================================================\n";
@@ -198,68 +200,73 @@ void menuadmin()
     cin >> pilihan;
     cout << "--------------------------------------------------\n";
     system("cls");
-    switch (pilihan) {
-            case 1:
-                cout << "[Kelola Pelanggan]\n";
-                break;
-            case 2:
-                cout << "[Manajemen Reservasi]\n";
-                break;
-            case 3:
-                cout << "[Laporan]\n";
-                break;
-            case 0:
-                cout << "Keluar dari Menu Admin...\n";
-                break;
-            default:
-                cout << "Pilihan tidak valid!\n";
-        }
-       
+    switch (pilihan)
+    {
+    case 1:
+        cout << "[Kelola Pelanggan]\n";
+        break;
+    case 2:
+        cout << "[Manajemen Reservasi]\n";
+        break;
+    case 3:
+        cout << "[Laporan]\n";
+        break;
+    case 0:
+        cout << "Keluar dari Menu Admin...\n";
+        break;
+    default:
+        cout << "Pilihan tidak valid!\n";
     }
-
-void menuVisitor() {
-    int pilihan;
-        system("cls");
-        cout << "==================================================\n";
-        cout << "                 MENU VISITOR                     \n";
-        cout << "==================================================\n";
-        cout << "Selamat datang, " << username_aktif << "!\n";
-        cout << "--------------------------------------------------\n";
-        cout << "1. Buat Reservasi\n";
-        cout << "2. Lihat Reservasi Saya\n";
-        cout << "3. Batalkan Reservasi\n";
-        cout << "0. Keluar\n";
-        cout << "==================================================\n";
-        cout << "Pilih opsi (0-3): ";
-        cin >> pilihan;
-        cout << "--------------------------------------------------\n";
-
-        switch (pilihan) {
-            case 1:
-                cout << "[Buat Reservasi]\n";
-                break;
-            case 2:
-                cout << "[Lihat Reservasi]\n";
-                break;
-            case 3:
-                cout << "[Batalkan Reservasi]\n";
-                break;
-            case 0:
-                cout << "Keluar dari Menu Visitor...\n";
-                break;
-            default:
-                cout << "Pilihan tidak valid!\n";
-        }
 }
-   
+
+void menuVisitor()
+{
+    int pilihan;
+    system("cls");
+    cout << "==================================================\n";
+    cout << "                 MENU VISITOR                     \n";
+    cout << "==================================================\n";
+    cout << "Selamat datang, " << username_aktif << "!\n";
+    cout << "--------------------------------------------------\n";
+    cout << "1. Buat Reservasi\n";
+    cout << "2. Lihat Reservasi Saya\n";
+    cout << "3. Batalkan Reservasi\n";
+    cout << "0. Keluar\n";
+    cout << "==================================================\n";
+    cout << "Pilih opsi (0-3): ";
+    cin >> pilihan;
+    cout << "--------------------------------------------------\n";
+
+    switch (pilihan)
+    {
+    case 1:
+        cout << "[Buat Reservasi]\n";
+        break;
+    case 2:
+        cout << "[Lihat Reservasi]\n";
+        break;
+    case 3:
+        cout << "[Batalkan Reservasi]\n";
+        break;
+    case 0:
+        cout << "Keluar dari Menu Visitor...\n";
+        break;
+    default:
+        cout << "Pilihan tidak valid!\n";
+    }
+}
+
 int main()
 {
     while (true)
     {
         mainmenu();
-        if (admin_aktif) {
+        if (admin_aktif)
+        {
             menuadmin();
-        } else if (!username_aktif.empty()) {
+        }
+        else if (!username_aktif.empty())
+        {
             menuVisitor();
         }
     }
