@@ -35,6 +35,7 @@ struct reservasi
 };
 const string DAFTAR_PAKET[4] = {"Wisuda", "Prewedding", "Keluarga", "Produk"};
 const int HARGA_PAKET[4] = {700000, 1500000, 750000, 400000};
+const int biayaTambahan = 100000;
 const int maks_visitor = 100;
 const int maks_reservasi = 100;
 
@@ -187,7 +188,6 @@ void mainmenu()
             while (getline(fileVisitor, baris))
             {
                 size_t posisi1 = baris.find(" | ");
-
                 if (posisi1 != string::npos)
                 {
                     size_t posisi2 = baris.find(" | ", posisi1 + 3);
@@ -201,7 +201,6 @@ void mainmenu()
                 }
             }
             fileVisitor.close();
-
             if (berhasil)
             {
                 username_aktif = tempvisitorUsername;
@@ -257,7 +256,6 @@ void mainmenu()
             }
             if (berhasil)
             {
-
                 admin_aktif = true;
                 cout << "Sign In Berhasil! Selamat datang, " << tempadminUsername << endl;
                 system("pause");
@@ -331,7 +329,6 @@ void menuVisitor()
         cout << "Pilih opsi (0-3): ";
         cin >> pilihan;
         cout << "--------------------------------------------------\n";
-
         switch (pilihan)
         {
         case 1:
@@ -372,15 +369,12 @@ int main()
 bool tanggalValid(const string& tanggalInput)
 {
     int hari, bulan, tahun;
-
     if (sscanf(tanggalInput.c_str(), "%d/%d/%d", &hari, &bulan, &tahun) != 3)
     {
         return false;
     }
-
     time_t sekarang = time(nullptr);
     tm* hariIni = localtime(&sekarang);
-
     tm tanggalReservasi = {};
     tanggalReservasi.tm_mday = hari;
     tanggalReservasi.tm_mon = bulan - 1;
@@ -388,17 +382,13 @@ bool tanggalValid(const string& tanggalInput)
     tanggalReservasi.tm_hour = 0;
     tanggalReservasi.tm_min = 0;
     tanggalReservasi.tm_sec = 0;
-
     time_t waktuReservasi = mktime(&tanggalReservasi);
-
     tm besok = *hariIni;
     besok.tm_mday += 1;
     besok.tm_hour = 0;
     besok.tm_min = 0;
     besok.tm_sec = 0;
-
     time_t waktuBesok = mktime(&besok);
-
     return waktuReservasi >= waktuBesok;
 }
 
@@ -419,7 +409,7 @@ void buatReservasi()
     cout << left
         << setw(5)  << "No"
         << setw(15) << "Paket"
-        << setw(15) << "Harga / Jam"
+        << setw(15) << "Harga Paket"
         << endl;
     cout << "--------------------------------------------------\n";
     for (int i = 0; i < 4; i++)
@@ -430,6 +420,10 @@ void buatReservasi()
             << "Rp " << HARGA_PAKET[i]
             << endl;
     }
+    cout << "--------------------------------------------------\n";
+    cout << "* Harga sudah termasuk 2 jam sesi.\n";
+    cout << "* Tambahan jam dikenakan Rp" << biayaTambahan << "/jam.\n";
+    cout << "* Maksimal reservasi 8 jam.\n";
     cout << "--------------------------------------------------\n";
     int pilihanPaket;
     cout << "Pilih Paket : ";
@@ -452,9 +446,23 @@ void buatReservasi()
         }
         cout << "Tanggal harus minimal H+1 dari hari ini!\n";
     }
-    cout << "Durasi (jam) : ";
-    cin >> r.durasi;
-    r.totalBiaya = r.harga * r.durasi;
+    do
+    {
+        cout << "Durasi (2 - 8 jam) : ";
+        cin >> r.durasi;
+        if (r.durasi < 2 || r.durasi > 8)
+        {
+            cout << "Durasi harus antara 2 sampai 8 jam!\n";
+        }
+    } while (r.durasi < 2 || r.durasi > 8);
+    if (r.durasi <= 2)
+    {
+        r.totalBiaya = r.harga;
+    }
+    else
+    {
+        r.totalBiaya = r.harga + ((r.durasi - 2) * biayaTambahan);
+    }
     r.status = "Menunggu";
     reservasiList[jumlahreservasi] = r;
     jumlahreservasi++;
@@ -464,7 +472,14 @@ void buatReservasi()
     cout << "ID Reservasi : " << r.idReservasi << endl;
     cout << "Paket        : " << r.namaPaket << endl;
     cout << "Tanggal      : " << r.tanggal << endl;
+    cout << "Harga Paket  : Rp" << r.harga << endl;
     cout << "Durasi       : " << r.durasi << " jam\n";
+    if (r.durasi > 2)
+    {
+        cout << "Tambahan Jam : "
+            << (r.durasi - 2)
+            << " x Rp" << biayaTambahan << endl;
+    }
     cout << "Total Biaya  : Rp" << r.totalBiaya << endl;
     cout << "Status       : " << r.status << endl;
     cout << "--------------------------------------------------\n";
