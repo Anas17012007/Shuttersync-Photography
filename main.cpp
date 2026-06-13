@@ -7,8 +7,9 @@ using namespace std;
 
 void buatReservasi();
 bool tanggalValid(const string &tanggalInput);
-void loadreservasi();
-void loadvisitor();
+void loadReservasi();
+void loadVisitor();
+void lihatReservasiSaya();
 
 struct admin
 {
@@ -160,9 +161,11 @@ void mainmenu()
                                 << visit[jumlahvisitor].nama << " | "
                                 << visit[jumlahvisitor].noTelp << " | "
                                 << visit[jumlahvisitor].email << endl;
+                    username_aktif = visit[jumlahvisitor].username;
                     fileVisitor.close();
                     jumlahvisitor++;
                     cout << "Registrasi Berhasil!\n";
+                    waitEnter();
                 }
                 else
                 {
@@ -306,6 +309,7 @@ void menuadmin()
             cout << "[Laporan]\n";
             break;
         case 0:
+            admin_aktif = false;
             cout << "Keluar dari Menu Admin...\n";
             break;
         default:
@@ -339,12 +343,13 @@ void menuVisitor()
             buatReservasi();
             break;
         case 2:
-            cout << "[Lihat Reservasi]\n";
+            lihatReservasiSaya();
             break;
         case 3:
             cout << "[Batalkan Reservasi]\n";
             break;
         case 0:
+            username_aktif = "";
             cout << "Keluar dari Menu Visitor...\n";
             break;
         default:
@@ -565,4 +570,44 @@ void loadReservasi()
         jumlahreservasi++;
     }
     fileReservasi.close();
+}
+
+void lihatReservasiSaya()
+{
+    clearScreen();
+    cout << "==============================================================\n";
+    cout << "                      RESERVASI SAYA                          \n";
+    cout << "==============================================================\n";
+    bool ditemukan = false;
+    cout << left
+         << setw(5)  << "ID"
+         << setw(12) << "Paket"
+         << setw(15) << "Tanggal"
+         << setw(8)  << "Jam"
+         << setw(12) << "Total"
+         << setw(10) << "Status"
+         << endl;
+    cout << "--------------------------------------------------------------\n";
+    for (int i = 0; i < jumlahreservasi; i++)
+    {
+        if (reservasiList[i].usernameVisitor == username_aktif)
+        {
+            ditemukan = true;
+            cout << left
+                 << setw(5)  << reservasiList[i].idReservasi
+                 << setw(12) << reservasiList[i].namaPaket
+                 << setw(15) << reservasiList[i].tanggal
+                 << setw(8)  << (to_string(reservasiList[i].durasi) + " jam")
+                 << setw(12) << ("Rp" + to_string(reservasiList[i].totalBiaya))
+                 << setw(10) << reservasiList[i].status
+                 << endl;
+                 cout << "--------------------------------------------------------------\n";
+        }
+    }
+    if (!ditemukan)
+    {
+        cout << "Belum ada reservasi.\n";
+        cout << "--------------------------------------------------------------\n";
+    }
+    waitEnter();
 }
