@@ -2,7 +2,12 @@
 #include <string>
 #include <ctime>
 #include <fstream>
+#include <iomanip>
 using namespace std;
+
+void buatReservasi();
+bool tanggalValid(const string& tanggalInput);
+
 struct admin
 {
     string username;
@@ -70,8 +75,20 @@ bool cekUsernameDuplikat(string usernameBaru)
     fileVisitor.close();
     return false;
 }
+
+void clearScreen(){
+    cout << "\033[2J\033[H";
+}
+
+void waitEnter(){
+    cout << "Tekan ENTER untuk melanjutkan...";
+    cin.ignore();
+    cin.get();
+}
+
 void mainmenu()
 {
+    clearScreen();
     int pilihan;
 
     cout << "==================================================\n";
@@ -86,6 +103,7 @@ void mainmenu()
     cout << "--------------------------------------------------\n";
     if (pilihan == 2)
     {
+        clearScreen();
         int pilihanVisitor;
         cout << "==================================================\n";
         cout << "                  MENU VISITOR                    \n";
@@ -100,6 +118,7 @@ void mainmenu()
         system("cls");
         if (pilihanVisitor == 2)
         {
+            clearScreen();
             cout << "==================================================\n";
             cout << "               REGISTRASI VISITOR                 \n";
             cout << "==================================================\n";
@@ -152,6 +171,7 @@ void mainmenu()
         }
         else if (pilihanVisitor == 1)
         {
+            clearScreen();
             string tempvisitorUsername, tempvisitorPassword;
             cout << "==================================================\n";
             cout << "               SIGN IN VISITOR                    \n";
@@ -202,6 +222,7 @@ void mainmenu()
     }
     else if (pilihan == 1)
     {
+        clearScreen();
         int pilihanAdmin;
         cout << "==================================================\n";
         cout << "                  MENU ADMIN                      \n";
@@ -215,6 +236,7 @@ void mainmenu()
         system("cls");
         if (pilihanAdmin == 1)
         {
+            clearScreen();
             string tempadminUsername, tempadminPassword;
             cout << "==================================================\n";
             cout << "               SIGN IN ADMIN                    \n";
@@ -255,72 +277,79 @@ void mainmenu()
 void menuadmin()
 {
     int pilihan;
-    cout << "==================================================\n";
-    cout << "                  MENU ADMIN                      \n";
-    cout << "==================================================\n";
-    cout << "1. Lihat Data Visitor\n";
-    cout << "2. Manajemen reservasi\n";
-    cout << "3. Laporan\n";
-    cout << "0. Keluar\n";
-    cout << "==================================================\n";
-    cout << "Pilih opsi (1-3): ";
-    cin >> pilihan;
-    cout << "--------------------------------------------------\n";
-    system("cls");
-    switch (pilihan)
+    do
     {
-    case 1:
-        cout << "[Kelola Pelanggan]\n";
-        break;
-    case 2:
-        cout << "[Manajemen Reservasi]\n";
-        break;
-    case 3:
-        cout << "[Laporan]\n";
-        break;
-    case 0:
-        cout << "Keluar dari Menu Admin...\n";
-        break;
-    default:
-        cout << "Pilihan tidak valid!\n";
-    }
+        clearScreen();
+        cout << "==================================================\n";
+        cout << "                  MENU ADMIN                      \n";
+        cout << "==================================================\n";
+        cout << "1. Lihat Data Visitor\n";
+        cout << "2. Manajemen reservasi\n";
+        cout << "3. Laporan\n";
+        cout << "0. Keluar\n";
+        cout << "==================================================\n";
+        cout << "Pilih opsi (1-3): ";
+        cin >> pilihan;
+        cout << "--------------------------------------------------\n";
+        system("cls");
+        switch (pilihan)
+        {
+        case 1:
+            cout << "[Kelola Pelanggan]\n";
+            break;
+        case 2:
+            cout << "[Manajemen Reservasi]\n";
+            break;
+        case 3:
+            cout << "[Laporan]\n";
+            break;
+        case 0:
+            cout << "Keluar dari Menu Admin...\n";
+            break;
+        default:
+            cout << "Pilihan tidak valid!\n";
+        }
+    } while (pilihan != 0);
+
 }
 
 void menuVisitor()
 {
     int pilihan;
-    system("cls");
-    cout << "==================================================\n";
-    cout << "                 MENU VISITOR                     \n";
-    cout << "==================================================\n";
-    cout << "Selamat datang, " << username_aktif << "!\n";
-    cout << "--------------------------------------------------\n";
-    cout << "1. Buat Reservasi\n";
-    cout << "2. Lihat Reservasi Saya\n";
-    cout << "3. Batalkan Reservasi\n";
-    cout << "0. Keluar\n";
-    cout << "==================================================\n";
-    cout << "Pilih opsi (0-3): ";
-    cin >> pilihan;
-    cout << "--------------------------------------------------\n";
+    do{
+        clearScreen();
+        cout << "==================================================\n";
+        cout << "                 MENU VISITOR                     \n";
+        cout << "==================================================\n";
+        cout << "Selamat datang, " << username_aktif << "!\n";
+        cout << "--------------------------------------------------\n";
+        cout << "1. Buat Reservasi\n";
+        cout << "2. Lihat Reservasi Saya\n";
+        cout << "3. Batalkan Reservasi\n";
+        cout << "0. Keluar\n";
+        cout << "==================================================\n";
+        cout << "Pilih opsi (0-3): ";
+        cin >> pilihan;
+        cout << "--------------------------------------------------\n";
 
-    switch (pilihan)
-    {
-    case 1:
-        cout << "[Buat Reservasi]\n";
-        break;
-    case 2:
-        cout << "[Lihat Reservasi]\n";
-        break;
-    case 3:
-        cout << "[Batalkan Reservasi]\n";
-        break;
-    case 0:
-        cout << "Keluar dari Menu Visitor...\n";
-        break;
-    default:
-        cout << "Pilihan tidak valid!\n";
-    }
+        switch (pilihan)
+        {
+        case 1:
+            buatReservasi();
+            break;
+        case 2:
+            cout << "[Lihat Reservasi]\n";
+            break;
+        case 3:
+            cout << "[Batalkan Reservasi]\n";
+            break;
+        case 0:
+            cout << "Keluar dari Menu Visitor...\n";
+            break;
+        default:
+            cout << "Pilihan tidak valid!\n";
+        }
+    }while(pilihan != 0);
 }
 
 int main()
@@ -338,4 +367,106 @@ int main()
         }
     }
     return 0;
+}
+
+bool tanggalValid(const string& tanggalInput)
+{
+    int hari, bulan, tahun;
+
+    if (sscanf(tanggalInput.c_str(), "%d/%d/%d", &hari, &bulan, &tahun) != 3)
+    {
+        return false;
+    }
+
+    time_t sekarang = time(nullptr);
+    tm* hariIni = localtime(&sekarang);
+
+    tm tanggalReservasi = {};
+    tanggalReservasi.tm_mday = hari;
+    tanggalReservasi.tm_mon = bulan - 1;
+    tanggalReservasi.tm_year = tahun - 1900;
+    tanggalReservasi.tm_hour = 0;
+    tanggalReservasi.tm_min = 0;
+    tanggalReservasi.tm_sec = 0;
+
+    time_t waktuReservasi = mktime(&tanggalReservasi);
+
+    tm besok = *hariIni;
+    besok.tm_mday += 1;
+    besok.tm_hour = 0;
+    besok.tm_min = 0;
+    besok.tm_sec = 0;
+
+    time_t waktuBesok = mktime(&besok);
+
+    return waktuReservasi >= waktuBesok;
+}
+
+void buatReservasi()
+{
+    clearScreen();
+    if (jumlahreservasi >= maks_reservasi)
+    {
+        cout << "Kapasitas reservasi penuh!\n";
+        return;
+    }
+    reservasi r;
+    r.idReservasi = jumlahreservasi + 1;
+    r.usernameVisitor = username_aktif;
+    cout << "==================================================\n";
+    cout << "                BUAT RESERVASI                    \n";
+    cout << "==================================================\n";
+    cout << left
+        << setw(5)  << "No"
+        << setw(15) << "Paket"
+        << setw(15) << "Harga / Jam"
+        << endl;
+    cout << "--------------------------------------------------\n";
+    for (int i = 0; i < 4; i++)
+    {
+        cout << left
+            << setw(5)  << i + 1
+            << setw(15) << DAFTAR_PAKET[i]
+            << "Rp " << HARGA_PAKET[i]
+            << endl;
+    }
+    cout << "--------------------------------------------------\n";
+    int pilihanPaket;
+    cout << "Pilih Paket : ";
+    cin >> pilihanPaket;
+    if (pilihanPaket < 1 || pilihanPaket > 4)
+    {
+        cout << "Pilihan paket tidak valid!\n";
+        waitEnter();
+        return;
+    }
+    r.namaPaket = DAFTAR_PAKET[pilihanPaket - 1];
+    r.harga = HARGA_PAKET[pilihanPaket - 1];
+    while (true)
+    {
+        cout << "Tanggal Reservasi (DD/MM/YYYY) : ";
+        cin >> r.tanggal;
+        if (tanggalValid(r.tanggal))
+        {
+            break;
+        }
+        cout << "Tanggal harus minimal H+1 dari hari ini!\n";
+    }
+    cout << "Durasi (jam) : ";
+    cin >> r.durasi;
+    r.totalBiaya = r.harga * r.durasi;
+    r.status = "Menunggu";
+    reservasiList[jumlahreservasi] = r;
+    jumlahreservasi++;
+    cout << "--------------------------------------------------\n";
+    cout << "Reservasi berhasil dibuat!\n";
+    cout << "--------------------------------------------------\n";
+    cout << "ID Reservasi : " << r.idReservasi << endl;
+    cout << "Paket        : " << r.namaPaket << endl;
+    cout << "Tanggal      : " << r.tanggal << endl;
+    cout << "Durasi       : " << r.durasi << " jam\n";
+    cout << "Total Biaya  : Rp" << r.totalBiaya << endl;
+    cout << "Status       : " << r.status << endl;
+    cout << "--------------------------------------------------\n";
+    waitEnter();
 }
