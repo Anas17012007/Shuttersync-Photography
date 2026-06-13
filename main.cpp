@@ -6,7 +6,9 @@
 using namespace std;
 
 void buatReservasi();
-bool tanggalValid(const string& tanggalInput);
+bool tanggalValid(const string &tanggalInput);
+void loadreservasi();
+void loadvisitor();
 
 struct admin
 {
@@ -77,11 +79,13 @@ bool cekUsernameDuplikat(string usernameBaru)
     return false;
 }
 
-void clearScreen(){
+void clearScreen()
+{
     cout << "\033[2J\033[H";
 }
 
-void waitEnter(){
+void waitEnter()
+{
     cout << "Tekan ENTER untuk melanjutkan...";
     cin.ignore();
     cin.get();
@@ -308,13 +312,13 @@ void menuadmin()
             cout << "Pilihan tidak valid!\n";
         }
     } while (pilihan != 0);
-
 }
 
 void menuVisitor()
 {
     int pilihan;
-    do{
+    do
+    {
         clearScreen();
         cout << "==================================================\n";
         cout << "                 MENU VISITOR                     \n";
@@ -346,11 +350,13 @@ void menuVisitor()
         default:
             cout << "Pilihan tidak valid!\n";
         }
-    }while(pilihan != 0);
+    } while (pilihan != 0);
 }
 
 int main()
 {
+    loadReservasi();
+    loadVisitor();
     while (true)
     {
         mainmenu();
@@ -366,7 +372,7 @@ int main()
     return 0;
 }
 
-bool tanggalValid(const string& tanggalInput)
+bool tanggalValid(const string &tanggalInput)
 {
     int hari, bulan, tahun;
     if (sscanf(tanggalInput.c_str(), "%d/%d/%d", &hari, &bulan, &tahun) != 3)
@@ -374,7 +380,7 @@ bool tanggalValid(const string& tanggalInput)
         return false;
     }
     time_t sekarang = time(nullptr);
-    tm* hariIni = localtime(&sekarang);
+    tm *hariIni = localtime(&sekarang);
     tm tanggalReservasi = {};
     tanggalReservasi.tm_mday = hari;
     tanggalReservasi.tm_mon = bulan - 1;
@@ -400,25 +406,25 @@ void buatReservasi()
         cout << "Kapasitas reservasi penuh!\n";
         return;
     }
-    reservasi r;
-    r.idReservasi = jumlahreservasi + 1;
-    r.usernameVisitor = username_aktif;
+    reservasi reservasi_baru;
+    reservasi_baru.idReservasi = jumlahreservasi + 1;
+    reservasi_baru.usernameVisitor = username_aktif;
     cout << "==================================================\n";
     cout << "                BUAT RESERVASI                    \n";
     cout << "==================================================\n";
     cout << left
-        << setw(5)  << "No"
-        << setw(15) << "Paket"
-        << setw(15) << "Harga Paket"
-        << endl;
+         << setw(5) << "No"
+         << setw(15) << "Paket"
+         << setw(15) << "Harga Paket"
+         << endl;
     cout << "--------------------------------------------------\n";
     for (int i = 0; i < 4; i++)
     {
         cout << left
-            << setw(5)  << i + 1
-            << setw(15) << DAFTAR_PAKET[i]
-            << "Rp " << HARGA_PAKET[i]
-            << endl;
+             << setw(5) << i + 1
+             << setw(15) << DAFTAR_PAKET[i]
+             << "Rp " << HARGA_PAKET[i]
+             << endl;
     }
     cout << "--------------------------------------------------\n";
     cout << "* Harga sudah termasuk 2 jam sesi.\n";
@@ -434,13 +440,13 @@ void buatReservasi()
         waitEnter();
         return;
     }
-    r.namaPaket = DAFTAR_PAKET[pilihanPaket - 1];
-    r.harga = HARGA_PAKET[pilihanPaket - 1];
+    reservasi_baru.namaPaket = DAFTAR_PAKET[pilihanPaket - 1];
+    reservasi_baru.harga = HARGA_PAKET[pilihanPaket - 1];
     while (true)
     {
         cout << "Tanggal Reservasi (DD/MM/YYYY) : ";
-        cin >> r.tanggal;
-        if (tanggalValid(r.tanggal))
+        cin >> reservasi_baru.tanggal;
+        if (tanggalValid(reservasi_baru.tanggal))
         {
             break;
         }
@@ -449,39 +455,114 @@ void buatReservasi()
     do
     {
         cout << "Durasi (2 - 8 jam) : ";
-        cin >> r.durasi;
-        if (r.durasi < 2 || r.durasi > 8)
+        cin >> reservasi_baru.durasi;
+        if (reservasi_baru.durasi < 2 || reservasi_baru.durasi > 8)
         {
             cout << "Durasi harus antara 2 sampai 8 jam!\n";
         }
-    } while (r.durasi < 2 || r.durasi > 8);
-    if (r.durasi <= 2)
+    } while (reservasi_baru.durasi < 2 || reservasi_baru.durasi > 8);
+    if (reservasi_baru.durasi <= 2)
     {
-        r.totalBiaya = r.harga;
+        reservasi_baru.totalBiaya = reservasi_baru.harga;
     }
     else
     {
-        r.totalBiaya = r.harga + ((r.durasi - 2) * biayaTambahan);
+        reservasi_baru.totalBiaya = reservasi_baru.harga + ((reservasi_baru.durasi - 2) * biayaTambahan);
     }
-    r.status = "Menunggu";
-    reservasiList[jumlahreservasi] = r;
+    reservasi_baru.status = "Menunggu";
+    reservasiList[jumlahreservasi] = reservasi_baru;
     jumlahreservasi++;
+    ofstream fileReservasi("reservasi.txt", ios::app);
+    if (fileReservasi.is_open())
+    {
+        fileReservasi << reservasi_baru.idReservasi << " | "
+                      << reservasi_baru.usernameVisitor << " | "
+                      << reservasi_baru.namaPaket << " | "
+                      << reservasi_baru.tanggal << " | "
+                      << reservasi_baru.durasi << " | "
+                      << reservasi_baru.harga << " | "
+                      << reservasi_baru.totalBiaya << " | "
+                      << reservasi_baru.status << endl;
+        fileReservasi.close();
+    }
+    else
+    {
+        cout << "Gagal menyimpan reservasi ke file!\n";
+    }
     cout << "--------------------------------------------------\n";
     cout << "Reservasi berhasil dibuat!\n";
     cout << "--------------------------------------------------\n";
-    cout << "ID Reservasi : " << r.idReservasi << endl;
-    cout << "Paket        : " << r.namaPaket << endl;
-    cout << "Tanggal      : " << r.tanggal << endl;
-    cout << "Harga Paket  : Rp" << r.harga << endl;
-    cout << "Durasi       : " << r.durasi << " jam\n";
-    if (r.durasi > 2)
+    cout << "ID Reservasi : " << reservasi_baru.idReservasi << endl;
+    cout << "Paket        : " << reservasi_baru.namaPaket << endl;
+    cout << "Tanggal      : " << reservasi_baru.tanggal << endl;
+    cout << "Harga Paket  : Rp" << reservasi_baru.harga << endl;
+    cout << "Durasi       : " << reservasi_baru.durasi << " jam\n";
+    if (reservasi_baru.durasi > 2)
     {
         cout << "Tambahan Jam : "
-            << (r.durasi - 2)
-            << " x Rp" << biayaTambahan << endl;
+             << (reservasi_baru.durasi - 2)
+             << " x Rp" << biayaTambahan << endl;
     }
-    cout << "Total Biaya  : Rp" << r.totalBiaya << endl;
-    cout << "Status       : " << r.status << endl;
+    cout << "Total Biaya  : Rp" << reservasi_baru.totalBiaya << endl;
+    cout << "Status       : " << reservasi_baru.status << endl;
     cout << "--------------------------------------------------\n";
     waitEnter();
+}
+void loadVisitor()
+{
+    ifstream fileVisitor("visitor.txt");
+    string baris;
+    while (getline(fileVisitor, baris) && jumlahvisitor < maks_visitor)
+    {
+        visitor visit_load;
+        size_t p1 = baris.find(" | ");
+        size_t p2 = baris.find(" | ", p1 + 3);
+        size_t p3 = baris.find(" | ", p2 + 3);
+        size_t p4 = baris.find(" | ", p3 + 3);
+
+        if (p1 == string::npos || p2 == string::npos ||
+            p3 == string::npos || p4 == string::npos)
+        {
+            continue;
+        }
+
+        visit_load.username = baris.substr(0, p1);
+        visit_load.password = baris.substr(p1 + 3, p2 - p1 - 3);
+        visit_load.nama = baris.substr(p2 + 3, p3 - p2 - 3);
+        visit_load.noTelp = baris.substr(p3 + 3, p4 - p3 - 3);
+        visit_load.email = baris.substr(p4 + 3);
+
+        visit[jumlahvisitor] = visit_load;
+        jumlahvisitor++;
+    }
+    fileVisitor.close();
+}
+void loadReservasi()
+{
+    ifstream fileReservasi("reservasi.txt");
+    string baris;
+    while (getline(fileReservasi, baris) && jumlahreservasi < maks_reservasi)
+    {
+        reservasi reservasi_load;
+        size_t p1 = baris.find(" | ");
+        size_t p2 = baris.find(" | ", p1 + 3);
+        size_t p3 = baris.find(" | ", p2 + 3);
+        size_t p4 = baris.find(" | ", p3 + 3);
+        size_t p5 = baris.find(" | ", p4 + 3);
+        size_t p6 = baris.find(" | ", p5 + 3);
+        size_t p7 = baris.find(" | ", p6 + 3);
+
+        reservasi_load.idReservasi = stoi(baris.substr(0, p1));
+        reservasi_load.usernameVisitor = baris.substr(p1 + 3, p2 - p1 - 3);
+        reservasi_load.namaPaket = baris.substr(p2 + 3, p3 - p2 - 3);
+        reservasi_load.tanggal = baris.substr(p3 + 3, p4 - p3 - 3);
+        reservasi_load.durasi = stoi(baris.substr(p4 + 3, p5 - p4 - 3));
+        reservasi_load.harga = stoi(baris.substr(p5 + 3, p6 - p5 - 3));
+        reservasi_load.totalBiaya = stoi(baris.substr(p6 + 3, p7 - p6 - 3));
+        reservasi_load.status = baris.substr(p7 + 3);
+
+        reservasiList[jumlahreservasi] = reservasi_load;
+        jumlahreservasi++;
+    }
+    fileReservasi.close();
 }
