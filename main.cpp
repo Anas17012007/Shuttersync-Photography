@@ -10,6 +10,8 @@ bool tanggalValid(const string &tanggalInput);
 void loadReservasi();
 void loadVisitor();
 void lihatReservasiSaya();
+void tampilkanSemuaVisitor();
+void cariVisitor();
 
 struct admin
 {
@@ -615,7 +617,7 @@ void lihatReservasiSaya()
 void tampilkanSemuaVisitor(){
     clearScreen();
     cout << "==============================================================\n";
-    cout << "                      DAFTAR VISITOR/ PELANGGAN               \n";
+    cout << "                      DAFTAR PELANGGAN                        \n";
     cout << "==============================================================\n";
     if (jumlahvisitor == 0){
         cout << "Belum ada pelanggan yang terdaftar\n";
@@ -636,5 +638,37 @@ void tampilkanSemuaVisitor(){
         }
     }
     cout << "==============================================================\n";
+    waitEnter();
+}
+void cariVisitor(){
+    clearScreen();
+    cout << "==============================================================\n";
+    cout << "                         CARI PELANGGAN                       \n";
+    cout << "==============================================================\n";
+    if (jumlahvisitor == 0){
+        cout << "Belum ada data pelanggan yang ditemukan\n";
+        waitEnter();
+        return;
+    }
+    string keyword;
+    cout << "Masukkan Username atau Nama Pelanggan: ";
+    getline(cin >> ws, keyword);
+    cout << "--------------------------------------------------------------\n";
+    bool ditemukan = false;
+    for (int i = 0; i < jumlahvisitor; i++){
+    if (visit[i].username == keyword || visit[i].nama == keyword){
+        cout << "Data Pelanggan Ditemukan:\n\n";
+            cout << "Username     : " << visit[i].username << endl;
+            cout << "Nama Lengkap : " << visit[i].nama << endl;
+            cout << "No. Telepon  : " << visit[i].noTelp << endl;
+            cout << "Email        : " << visit[i].email << endl;
+            cout << "--------------------------------------------------\n";
+            ditemukan = true;
+        }
+    }
+    if (!ditemukan) {
+        cout << "Pelanggan dengan kata kunci '" << keyword << "' tidak ditemukan.\n";
+        cout << "--------------------------------------------------\n";
+    }
     waitEnter();
 }
