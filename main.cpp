@@ -63,6 +63,17 @@ admin daftarAdmin[6] = {
     {"Tiara", "Tiara123"},
     {"Putri", "Putri123"},
     {"siapalah", "okgasokgasprabowogibranoranggas"}};
+string Lower(string nama)
+{
+    for (int i = 0; i < nama.length(); i++)
+    {
+        if (nama[i] >= 'A' && nama[i] <= 'Z')
+        {
+            nama[i] = nama[i] + 32; 
+        }
+    }
+    return nama;
+}
 
 bool cekUsernameDuplikat(string usernameBaru)
 {
@@ -708,7 +719,7 @@ void cariVisitor(){
     cout << "--------------------------------------------------------------\n";
     bool ditemukan = false;
     for (int i = 0; i < jumlahvisitor; i++){
-    if (visit[i].username == keyword || visit[i].nama == keyword){
+    if (Lower(visit[i].username) == Lower(keyword) || Lower(visit[i].nama) == Lower(keyword)){
         cout << "Data Pelanggan Ditemukan:\n\n";
             cout << "Username     : " << visit[i].username << endl;
             cout << "Nama Lengkap : " << visit[i].nama << endl;
