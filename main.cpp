@@ -12,7 +12,8 @@ void loadVisitor();
 void lihatReservasiSaya();
 void batalkanReservasi();
 void tampilkanSemuaVisitor();
-void cariVisitor();
+void cariVisitor();\
+void tambahVisitor();
 
 struct admin
 {
@@ -107,7 +108,7 @@ void mainmenu()
     cout << "2. Visitor\n";
     cout << "0. Keluar\n";
     cout << "==================================================\n";
-    cout << "Pilih opsi (1-3): ";
+    cout << "Pilih opsi (0-2): ";
     cin >> pilihan;
     cout << "--------------------------------------------------\n";
     if (pilihan == 2)
@@ -121,7 +122,7 @@ void mainmenu()
         cout << "2. Sign Up (Daftar Akun Baru)\n";
         cout << "0. Kembali ke Menu Utama\n";
         cout << "==================================================\n";
-        cout << "Pilih opsi (1-3): ";
+        cout << "Pilih opsi (0-2): ";
         cin >> pilihanVisitor;
         cout << "--------------------------------------------------\n";
         system("cls");
@@ -239,7 +240,7 @@ void mainmenu()
         cout << "1. Sign In (Masuk)\n";
         cout << "0. Kembali\n";
         cout << "==================================================\n";
-        cout << "Pilih opsi (1-2): ";
+        cout << "Pilih opsi (0-1): ";
         cin >> pilihanAdmin;
         cout << "--------------------------------------------------\n";
         system("cls");
@@ -296,14 +297,14 @@ void menuadmin()
         cout << "3. Laporan\n";
         cout << "0. Keluar\n";
         cout << "==================================================\n";
-        cout << "Pilih opsi (1-3): ";
+        cout << "Pilih opsi (0-3): ";
         cin >> pilihan;
         cout << "--------------------------------------------------\n";
         system("cls");
         switch (pilihan)
         {
         case 1:
-            cout << "[Kelola Pelanggan]\n";
+            cout << "[kelola pelanggan]\n";
             break;
         case 2:
             cout << "[Manajemen Reservasi]\n";
@@ -721,4 +722,58 @@ void cariVisitor(){
         cout << "--------------------------------------------------\n";
     }
     waitEnter();
+}
+void tambahVisitor(){
+    clearScreen();
+    cout << "==============================================================\n";
+    cout << "                      TAMBAH PELANGGAN                       \n";
+    cout << "==============================================================\n";
+    if (jumlahvisitor >= maks_visitor){
+        cout << "Kapasitas pelanggan penuh! Tidak bisa menambah pelanggan baru.\n";
+        waitEnter();
+        return;
+    }
+    cout << "Masukkan Username Baru : ";
+    getline(cin >> ws, visit[jumlahvisitor].username);
+    cout << "Masukkan Password Baru : ";
+    getline(cin >> ws, visit[jumlahvisitor].password);
+    cout << "Masukkan Nama Lengkap  : ";
+    getline(cin >> ws, visit[jumlahvisitor].nama);
+    cout << "Masukkan No. Telepon   : ";
+    getline(cin >> ws, visit[jumlahvisitor].noTelp);
+    cout << "Masukkan Email         : ";
+    getline(cin >> ws, visit[jumlahvisitor].email);
+
+    if (visit[jumlahvisitor].username.empty() ||
+        visit[jumlahvisitor].password.empty() ||
+        visit[jumlahvisitor].nama.empty() ||
+        visit[jumlahvisitor].noTelp.empty())
+    {
+        cout << "Semua field tidak boleh kosong!\n";
+    }
+    else if (cekUsernameDuplikat(visit[jumlahvisitor].username))
+    {
+        cout << "Username sudah digunakan!\n";
+    }
+    else
+    {
+        ofstream fileVisitor("visitor.txt", ios::app);
+        if (fileVisitor.is_open())
+        {
+            fileVisitor << visit[jumlahvisitor].username << " | "
+                        << visit[jumlahvisitor].password << " | "
+                        << visit[jumlahvisitor].nama << " | "
+                        << visit[jumlahvisitor].noTelp << " | "
+                        << visit[jumlahvisitor].email << endl;
+            username_aktif = visit[jumlahvisitor].username;
+            fileVisitor.close();
+            jumlahvisitor++;
+            cout << "Registrasi Pelanggan Baru Berhasil!\n";
+            waitEnter();
+        }
+        else
+        {
+            cout << "Gagal membuka file!\n";
+        }
+    }
 }
