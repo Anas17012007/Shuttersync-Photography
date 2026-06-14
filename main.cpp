@@ -611,3 +611,30 @@ void lihatReservasiSaya()
     }
     waitEnter();
 }
+
+void tampilkanSemuaVisitor(){
+    clearScreen();
+    cout << "==============================================================\n";
+    cout << "                      DAFTAR VISITOR/ PELANGGAN               \n";
+    cout << "==============================================================\n";
+    if (jumlahvisitor == 0){
+        cout << "Belum ada pelanggan yang terdaftar\n";
+    }else{
+        cout << left << setw(15) << "Username"
+             << setw(20) << "Nama Lengkap"
+             << setw(15) << "No.Telepon"
+             << setw(25) << "Email"
+             << endl;
+        cout << "--------------------------------------------------------------\n";
+        for(int i = 0; i < jumlahvisitor; i++){
+            cout << left
+                 << setw(15) << visit[i].username
+                 << setw(20) << visit[i].nama
+                 << setw(15) << visit[i].noTelp
+                 << setw(25) << visit[i].email
+                 << endl;
+        }
+    }
+    cout << "==============================================================\n";
+    waitEnter();
+}
