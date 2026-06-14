@@ -62,14 +62,14 @@ admin daftarAdmin[6] = {
     {"Dicky", "Dicky123"},
     {"Tiara", "Tiara123"},
     {"Putri", "Putri123"},
-    {"siapalah", "okgasokgasprabowogibranoranggas"}};
+    {"Jihan", "Jihan123"}};
 string Lower(string nama)
 {
-    for (int i = 0; i < nama.length(); i++)
+    for (size_t i = 0; i < nama.length(); i++)
     {
         if (nama[i] >= 'A' && nama[i] <= 'Z')
         {
-            nama[i] = nama[i] + 32; 
+            nama[i] = static_cast<char>(nama[i] + 32); 
         }
     }
     return nama;
