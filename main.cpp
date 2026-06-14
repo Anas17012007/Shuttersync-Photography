@@ -12,8 +12,9 @@ void loadVisitor();
 void lihatReservasiSaya();
 void batalkanReservasi();
 void tampilkanSemuaVisitor();
-void cariVisitor();\
+void cariVisitor();
 void tambahVisitor();
+void kelolapelanggan();
 
 struct admin
 {
@@ -304,7 +305,7 @@ void menuadmin()
         switch (pilihan)
         {
         case 1:
-            cout << "[kelola pelanggan]\n";
+            kelolapelanggan();
             break;
         case 2:
             cout << "[Manajemen Reservasi]\n";
@@ -776,4 +777,37 @@ void tambahVisitor(){
             cout << "Gagal membuka file!\n";
         }
     }
+}
+void kelolapelanggan(){
+    int pilihan;
+    do {
+        clearScreen();
+        cout << "==============================================================\n";
+        cout << "                      KELOLA PELANGGAN                       \n";
+        cout << "==============================================================\n";
+        cout << "1. Tampilkan Semua Pelanggan\n";
+        cout << "2. Cari Pelanggan\n";
+        cout << "3. Tambah Pelanggan\n";
+        cout << "0. Kembali\n";
+        cout << "==============================================================\n";
+        cout << "Pilih opsi (0-3): ";
+        cin >> pilihan;
+        cout << "--------------------------------------------------------------\n";
+        switch (pilihan) {
+            case 1:
+                tampilkanSemuaVisitor();
+                break;
+            case 2:
+                cariVisitor();
+                break;
+            case 3:
+                tambahVisitor();
+                break;
+            case 0:
+                return;
+            default:
+                cout << "Pilihan tidak valid!\n";
+                waitEnter();
+        }
+    } while (pilihan != 0);
 }
