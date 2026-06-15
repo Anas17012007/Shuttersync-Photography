@@ -15,6 +15,9 @@ void tampilkanSemuaVisitor();
 void cariVisitor();
 void tambahVisitor();
 void kelolapelanggan();
+void laporanJumlahReservasi();
+void laporanTotalPendapatan();
+void menuLaporan();
 
 struct admin
 {
@@ -322,7 +325,7 @@ void menuadmin()
             cout << "[Manajemen Reservasi]\n";
             break;
         case 3:
-            cout << "[Laporan]\n";
+            menuLaporan();
             break;
         case 0:
             admin_aktif = false;
@@ -819,6 +822,169 @@ void kelolapelanggan(){
             default:
                 cout << "Pilihan tidak valid!\n";
                 waitEnter();
+        }
+    } while (pilihan != 0);
+}
+
+void laporanJumlahReservasi()
+{
+    clearScreen();
+    cout << "=======================================================================\n";
+    cout << "                         LAPORAN JUMLAH RESERVASI                      \n";
+    cout << "=======================================================================\n";
+
+    if (jumlahreservasi == 0)
+    {
+        cout << "Belum ada data reservasi.\n";
+        cout << "=======================================================================\n";
+        waitEnter();
+        return;
+    }
+
+    int totalMenunggu   = 0;
+    int totalDikonfirmasi = 0;
+    int totalDibatalkan = 0;
+    int totalLainnya    = 0;
+
+    for (int i = 0; i < jumlahreservasi; i++)
+    {
+        if (reservasiList[i].status == "Menunggu")
+            totalMenunggu++;
+        else if (reservasiList[i].status == "Dikonfirmasi")
+            totalDikonfirmasi++;
+        else if (reservasiList[i].status == "Dibatalkan")
+            totalDibatalkan++;
+        else
+            totalLainnya++;
+    }
+
+    cout << left
+         << setw(5)  << "No"
+         << setw(15) << "Paket"
+         << setw(15) << "Tanggal"
+         << setw(12) << "Visitor"
+         << setw(15) << "Total Biaya"
+         << setw(12) << "Status"
+         << endl;
+    cout << "-----------------------------------------------------------------------\n";
+
+    for (int i = 0; i < jumlahreservasi; i++)
+    {
+        cout << left
+             << setw(5)  << reservasiList[i].idReservasi
+             << setw(15) << reservasiList[i].namaPaket
+             << setw(15) << reservasiList[i].tanggal
+             << setw(12) << reservasiList[i].usernameVisitor
+             << setw(15) << ("Rp" + to_string(reservasiList[i].totalBiaya))
+             << setw(12) << reservasiList[i].status
+             << endl;
+    }
+
+    cout << "=======================================================================\n";
+    waitEnter();
+}
+
+void laporanTotalPendapatan()
+{
+    clearScreen();
+    cout << "=======================================================================\n";
+    cout << "                       LAPORAN TOTAL PENDAPATAN                        \n";
+    cout << "=======================================================================\n";
+
+    if (jumlahreservasi == 0)
+    {
+        cout << "Belum ada data reservasi.\n";
+        cout << "================================================================\n";
+        waitEnter();
+        return;
+    }
+
+    int pendapatanTotal      = 0;
+    int pendapatanKonfirmasi = 0;
+    int pendapatanMenunggu   = 0;
+
+    int pendapatanPerPaket[4] = {0, 0, 0, 0};
+    int jumlahPerPaket[4]     = {0, 0, 0, 0};
+
+    for (int i = 0; i < jumlahreservasi; i++)
+    {
+        if (reservasiList[i].status != "Dibatalkan")
+        {
+            pendapatanTotal += reservasiList[i].totalBiaya;
+
+            if (reservasiList[i].status == "Dikonfirmasi")
+                pendapatanKonfirmasi += reservasiList[i].totalBiaya;
+            else if (reservasiList[i].status == "Menunggu")
+                pendapatanMenunggu += reservasiList[i].totalBiaya;
+
+            for (int p = 0; p < 4; p++)
+            {
+                if (reservasiList[i].namaPaket == DAFTAR_PAKET[p])
+                {
+                    pendapatanPerPaket[p] += reservasiList[i].totalBiaya;
+                    jumlahPerPaket[p]++;
+                    break;
+                }
+            }
+        }
+    }
+
+    cout << "PENDAPATAN PER PAKET (tidak termasuk yang dibatalkan):\n";
+    cout << "--------------------------------------------------------------\n";
+    cout << left
+         << setw(15) << "Paket"
+         << setw(15) << "Jml Reservasi"
+         << setw(18) << "Total Pendapatan"
+         << endl;
+    cout << "--------------------------------------------------------------\n";
+
+    for (int p = 0; p < 4; p++)
+    {
+        cout << left
+             << setw(15) << DAFTAR_PAKET[p]
+             << setw(15) << jumlahPerPaket[p]
+             << "Rp" << pendapatanPerPaket[p]
+             << endl;
+    }
+
+    cout << "==============================================================\n";
+    cout << "  TOTAL PENDAPATAN         : Rp" << pendapatanTotal      << "\n";
+    cout << "  (tidak termasuk reservasi yang dibatalkan)\n";
+    cout << "==============================================================\n";
+    waitEnter();
+}
+
+void menuLaporan()
+{
+    int pilihan;
+    do
+    {
+        clearScreen();
+        cout << "==================================================\n";
+        cout << "                   MENU LAPORAN                   \n";
+        cout << "==================================================\n";
+        cout << "1. Laporan Jumlah Reservasi\n";
+        cout << "2. Laporan Total Pendapatan\n";
+        cout << "0. Kembali\n";
+        cout << "==================================================\n";
+        cout << "Pilih opsi (0-2): ";
+        cin >> pilihan;
+        cout << "--------------------------------------------------\n";
+        system("cls");
+        switch (pilihan)
+        {
+        case 1:
+            laporanJumlahReservasi();
+            break;
+        case 2:
+            laporanTotalPendapatan();
+            break;
+        case 0:
+            cout << "Kembali ke Menu Admin...\n";
+            break;
+        default:
+            cout << "Pilihan tidak valid!\n";
+            waitEnter();
         }
     } while (pilihan != 0);
 }
