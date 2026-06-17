@@ -22,8 +22,6 @@ void tampilSemuaReservasi();
 void konfirmasiReservasi();
 void batalkanReservasiAdmin();
 void manajemenReservasi();
-void simpanUlangReservasi();
-
 
 struct admin
 {
@@ -78,7 +76,7 @@ string Lower(string nama)
     {
         if (nama[i] >= 'A' && nama[i] <= 'Z')
         {
-            nama[i] = static_cast<char>(nama[i] + 32); 
+            nama[i] = static_cast<char>(nama[i] + 32);
         }
     }
     return nama;
@@ -328,7 +326,7 @@ void menuadmin()
             kelolapelanggan();
             break;
         case 2:
-            cout << "[Manajemen Reservasi]\n";
+            manajemenReservasi();
             break;
         case 3:
             menuLaporan();
@@ -585,10 +583,10 @@ void lihatReservasiSaya()
     cout << "==============================================================\n";
     bool ditemukan = false;
     cout << left
-         << setw(5)  << "ID"
+         << setw(5) << "ID"
          << setw(12) << "Paket"
          << setw(15) << "Tanggal"
-         << setw(8)  << "Jam"
+         << setw(8) << "Jam"
          << setw(12) << "Total"
          << setw(10) << "Status"
          << endl;
@@ -599,14 +597,14 @@ void lihatReservasiSaya()
         {
             ditemukan = true;
             cout << left
-                 << setw(5)  << reservasiList[i].idReservasi
+                 << setw(5) << reservasiList[i].idReservasi
                  << setw(12) << reservasiList[i].namaPaket
                  << setw(15) << reservasiList[i].tanggal
-                 << setw(8)  << (to_string(reservasiList[i].durasi) + " jam")
+                 << setw(8) << (to_string(reservasiList[i].durasi) + " jam")
                  << setw(12) << ("Rp" + to_string(reservasiList[i].totalBiaya))
                  << setw(10) << reservasiList[i].status
                  << endl;
-                 cout << "--------------------------------------------------------------\n";
+            cout << "--------------------------------------------------------------\n";
         }
     }
     if (!ditemukan)
@@ -616,13 +614,15 @@ void lihatReservasiSaya()
     }
     waitEnter();
 }
-void batalkanReservasi() {
+void batalkanReservasi()
+{
     clearScreen();
     cout << "==============================================================\n";
     cout << "                      BATALKAN RESERVASI                      \n";
     cout << "==============================================================\n";
-    
-    if (jumlahreservasi == 0) {
+
+    if (jumlahreservasi == 0)
+    {
         cout << "Belum ada data reservasi di sistem.\n";
         waitEnter();
         return;
@@ -633,17 +633,23 @@ void batalkanReservasi() {
     cin >> idCari;
 
     bool ditemukan = false;
-    for (int i = 0; i < jumlahreservasi; i++) {
-        if (reservasiList[i].idReservasi == idCari && reservasiList[i].usernameVisitor == username_aktif) {
+    for (int i = 0; i < jumlahreservasi; i++)
+    {
+        if (reservasiList[i].idReservasi == idCari && reservasiList[i].usernameVisitor == username_aktif)
+        {
             ditemukan = true;
-            
-            if (reservasiList[i].status != "Menunggu") {
+
+            if (reservasiList[i].status != "Menunggu")
+            {
                 cout << "Gagal! Reservasi tidak bisa dibatalkan karena statusnya sudah '" << reservasiList[i].status << "'.\n";
-            } else {
+            }
+            else
+            {
                 reservasiList[i].status = "Dibatalkan";
-                
+
                 ofstream fileReservasi("reservasi.txt", ios::trunc);
-                for (int j = 0; j < jumlahreservasi; j++) {
+                for (int j = 0; j < jumlahreservasi; j++)
+                {
                     fileReservasi << reservasiList[j].idReservasi << " | "
                                   << reservasiList[j].usernameVisitor << " | "
                                   << reservasiList[j].namaPaket << " | "
@@ -660,27 +666,33 @@ void batalkanReservasi() {
         }
     }
 
-    if (!ditemukan) {
+    if (!ditemukan)
+    {
         cout << "ID Reservasi tidak ditemukan atau bukan milik akun Anda.\n";
     }
     waitEnter();
 }
 
-void tampilkanSemuaVisitor(){
+void tampilkanSemuaVisitor()
+{
     clearScreen();
     cout << "==============================================================\n";
     cout << "                      DAFTAR PELANGGAN                        \n";
     cout << "==============================================================\n";
-    if (jumlahvisitor == 0){
+    if (jumlahvisitor == 0)
+    {
         cout << "Belum ada pelanggan yang terdaftar\n";
-    }else{
+    }
+    else
+    {
         cout << left << setw(15) << "Username"
              << setw(20) << "Nama Lengkap"
              << setw(15) << "No.Telepon"
              << setw(25) << "Email"
              << endl;
         cout << "--------------------------------------------------------------\n";
-        for(int i = 0; i < jumlahvisitor; i++){
+        for (int i = 0; i < jumlahvisitor; i++)
+        {
             cout << left
                  << setw(15) << visit[i].username
                  << setw(20) << visit[i].nama
@@ -692,12 +704,14 @@ void tampilkanSemuaVisitor(){
     cout << "==============================================================\n";
     waitEnter();
 }
-void cariVisitor(){
+void cariVisitor()
+{
     clearScreen();
     cout << "==============================================================\n";
     cout << "                         CARI PELANGGAN                       \n";
     cout << "==============================================================\n";
-    if (jumlahvisitor == 0){
+    if (jumlahvisitor == 0)
+    {
         cout << "Belum ada data pelanggan yang ditemukan\n";
         waitEnter();
         return;
@@ -707,9 +721,11 @@ void cariVisitor(){
     getline(cin >> ws, keyword);
     cout << "--------------------------------------------------------------\n";
     bool ditemukan = false;
-    for (int i = 0; i < jumlahvisitor; i++){
-    if (Lower(visit[i].username) == Lower(keyword) || Lower(visit[i].nama) == Lower(keyword)){
-        cout << "Data Pelanggan Ditemukan:\n\n";
+    for (int i = 0; i < jumlahvisitor; i++)
+    {
+        if (Lower(visit[i].username) == Lower(keyword) || Lower(visit[i].nama) == Lower(keyword))
+        {
+            cout << "Data Pelanggan Ditemukan:\n\n";
             cout << "Username     : " << visit[i].username << endl;
             cout << "Nama Lengkap : " << visit[i].nama << endl;
             cout << "No. Telepon  : " << visit[i].noTelp << endl;
@@ -718,18 +734,21 @@ void cariVisitor(){
             ditemukan = true;
         }
     }
-    if (!ditemukan) {
+    if (!ditemukan)
+    {
         cout << "Pelanggan dengan kata kunci '" << keyword << "' tidak ditemukan.\n";
         cout << "--------------------------------------------------\n";
     }
     waitEnter();
 }
-void tambahVisitor(){
+void tambahVisitor()
+{
     clearScreen();
     cout << "==============================================================\n";
     cout << "                      TAMBAH PELANGGAN                       \n";
     cout << "==============================================================\n";
-    if (jumlahvisitor >= maks_visitor){
+    if (jumlahvisitor >= maks_visitor)
+    {
         cout << "Kapasitas pelanggan penuh! Tidak bisa menambah pelanggan baru.\n";
         waitEnter();
         return;
@@ -777,9 +796,11 @@ void tambahVisitor(){
         }
     }
 }
-void kelolapelanggan(){
+void kelolapelanggan()
+{
     int pilihan;
-    do {
+    do
+    {
         clearScreen();
         cout << "==============================================================\n";
         cout << "                      KELOLA PELANGGAN                       \n";
@@ -792,21 +813,22 @@ void kelolapelanggan(){
         cout << "Pilih opsi (0-3): ";
         cin >> pilihan;
         cout << "--------------------------------------------------------------\n";
-        switch (pilihan) {
-            case 1:
-                tampilkanSemuaVisitor();
-                break;
-            case 2:
-                cariVisitor();
-                break;
-            case 3:
-                tambahVisitor();
-                break;
-            case 0:
-                return;
-            default:
-                cout << "Pilihan tidak valid!\n";
-                waitEnter();
+        switch (pilihan)
+        {
+        case 1:
+            tampilkanSemuaVisitor();
+            break;
+        case 2:
+            cariVisitor();
+            break;
+        case 3:
+            tambahVisitor();
+            break;
+        case 0:
+            return;
+        default:
+            cout << "Pilihan tidak valid!\n";
+            waitEnter();
         }
     } while (pilihan != 0);
 }
@@ -826,10 +848,10 @@ void laporanJumlahReservasi()
         return;
     }
 
-    int totalMenunggu   = 0;
+    int totalMenunggu = 0;
     int totalDikonfirmasi = 0;
     int totalDibatalkan = 0;
-    int totalLainnya    = 0;
+    int totalLainnya = 0;
 
     for (int i = 0; i < jumlahreservasi; i++)
     {
@@ -844,7 +866,7 @@ void laporanJumlahReservasi()
     }
 
     cout << left
-         << setw(5)  << "No"
+         << setw(5) << "No"
          << setw(15) << "Paket"
          << setw(15) << "Tanggal"
          << setw(12) << "Visitor"
@@ -856,7 +878,7 @@ void laporanJumlahReservasi()
     for (int i = 0; i < jumlahreservasi; i++)
     {
         cout << left
-             << setw(5)  << reservasiList[i].idReservasi
+             << setw(5) << reservasiList[i].idReservasi
              << setw(15) << reservasiList[i].namaPaket
              << setw(15) << reservasiList[i].tanggal
              << setw(12) << reservasiList[i].usernameVisitor
@@ -884,12 +906,12 @@ void laporanTotalPendapatan()
         return;
     }
 
-    int pendapatanTotal      = 0;
+    int pendapatanTotal = 0;
     int pendapatanKonfirmasi = 0;
-    int pendapatanMenunggu   = 0;
+    int pendapatanMenunggu = 0;
 
     int pendapatanPerPaket[4] = {0, 0, 0, 0};
-    int jumlahPerPaket[4]     = {0, 0, 0, 0};
+    int jumlahPerPaket[4] = {0, 0, 0, 0};
 
     for (int i = 0; i < jumlahreservasi; i++)
     {
@@ -933,7 +955,7 @@ void laporanTotalPendapatan()
     }
 
     cout << "==============================================================\n";
-    cout << "  TOTAL PENDAPATAN         : Rp" << pendapatanTotal      << "\n";
+    cout << "  TOTAL PENDAPATAN         : Rp" << pendapatanTotal << "\n";
     cout << "  (tidak termasuk reservasi yang dibatalkan)\n";
     cout << "==============================================================\n";
     waitEnter();
@@ -1018,6 +1040,39 @@ void tampilSemuaReservasi()
     cout << "==============================================================\n";
     cout << "                      SEMUA RESERVASI                         \n";
     cout << "==============================================================\n";
+    if (jumlahreservasi == 0)
+    {
+        cout << "Belum ada data reservasi.\n";
+        cout << "=======================================================================\n";
+        waitEnter();
+        return;
+    }
+
+    cout << left
+         << setw(5) << "ID"
+         << setw(12) << "Visitor"
+         << setw(12) << "Paket"
+         << setw(15) << "Tanggal"
+         << setw(8) << "Durasi"
+         << setw(14) << "Total"
+         << setw(12) << "Status"
+         << endl;
+    cout << "-----------------------------------------------------------------------\n";
+
+    for (int i = 0; i < jumlahreservasi; i++)
+    {
+        cout << left
+             << setw(5) << reservasiList[i].idReservasi
+             << setw(12) << reservasiList[i].usernameVisitor
+             << setw(12) << reservasiList[i].namaPaket
+             << setw(15) << reservasiList[i].tanggal
+             << setw(8) << (to_string(reservasiList[i].durasi) + " jam")
+             << setw(14) << ("Rp" + to_string(reservasiList[i].totalBiaya))
+             << setw(12) << reservasiList[i].status
+             << endl;
+    }
+    cout << "=======================================================================\n";
+    waitEnter();
 }
 void konfirmasiReservasi()
 {
@@ -1025,6 +1080,102 @@ void konfirmasiReservasi()
     cout << "==============================================================\n";
     cout << "                  KONFIRMASI RESERVASI                        \n";
     cout << "==============================================================\n";
+
+    if (jumlahreservasi == 0)
+    {
+        cout << "Belum ada data reservasi.\n";
+        waitEnter();
+        return;
+    }
+    cout << left
+         << setw(5) << "ID"
+         << setw(12) << "Visitor"
+         << setw(12) << "Paket"
+         << setw(15) << "Tanggal"
+         << setw(12) << "Status"
+         << endl;
+    cout << "-----------------------------------------------------------------------\n";
+
+    bool Menunggu = false;
+    for (int i = 0; i < jumlahreservasi; i++)
+    {
+        if (reservasiList[i].status == "Menunggu")
+        {
+            Menunggu = true;
+            cout << left
+                 << setw(5) << reservasiList[i].idReservasi
+                 << setw(12) << reservasiList[i].usernameVisitor
+                 << setw(12) << reservasiList[i].namaPaket
+                 << setw(15) << reservasiList[i].tanggal
+                 << setw(12) << reservasiList[i].status
+                 << endl;
+        }
+    }
+
+    if (!Menunggu)
+    {
+        cout << "Tidak ada reservasi yang menunggu konfirmasi.\n";
+        waitEnter();
+        return;
+    }
+
+    cout << "-----------------------------------------------------------------------\n";
+    int idCari;
+    cout << "Masukkan ID Reservasi yang ingin dikonfirmasi: ";
+    cin >> idCari;
+
+     bool ditemukan = false;
+    for (int i = 0; i < jumlahreservasi; i++)
+    {
+        if (reservasiList[i].idReservasi == idCari)
+        {
+            ditemukan = true;
+            if (reservasiList[i].status != "Menunggu")
+            {
+                cout << "Gagal! Status reservasi sudah '" << reservasiList[i].status << "'.\n";
+            }
+            else
+            {
+                char konfirmasi;
+                cout << "Yakin konfirmasi reservasi ID " << idCari << "? (Y/N): ";
+                cin >> konfirmasi;
+
+                if (konfirmasi == 'y' || konfirmasi == 'Y')
+                {
+                    reservasiList[i].status = "Dikonfirmasi";
+
+                    ofstream fileReservasi("reservasi.txt", ios::trunc);
+                    for (int j = 0; j < jumlahreservasi; j++)
+                    {
+                        fileReservasi << reservasiList[j].idReservasi     << " | "
+                                      << reservasiList[j].usernameVisitor << " | "
+                                      << reservasiList[j].namaPaket       << " | "
+                                      << reservasiList[j].tanggal         << " | "
+                                      << reservasiList[j].durasi          << " | "
+                                      << reservasiList[j].harga           << " | "
+                                      << reservasiList[j].totalBiaya      << " | "
+                                      << reservasiList[j].status          << endl;
+                    }
+                    fileReservasi.close();
+                    cout << "Reservasi ID " << idCari << " berhasil dikonfirmasi!\n";
+                }
+                else if (konfirmasi == 'n' || konfirmasi == 'N')
+                {
+                    cout << "Konfirmasi dibatalkan.\n";
+                }
+                else
+                {
+                    cout << "Input tidak valid, konfirmasi dibatalkan.\n";
+                }
+            }
+            break;
+        }
+    }
+
+    if (!ditemukan)
+        cout << "ID Reservasi tidak ditemukan.\n";
+
+    waitEnter();
 }
 void batalkanReservasiAdmin()
 {
