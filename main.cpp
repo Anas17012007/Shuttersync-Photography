@@ -18,6 +18,12 @@ void kelolapelanggan();
 void laporanJumlahReservasi();
 void laporanTotalPendapatan();
 void menuLaporan();
+void tampilSemuaReservasi();
+void konfirmasiReservasi();
+void batalkanReservasiAdmin();
+void manajemenReservasi();
+void simpanUlangReservasi();
+
 
 struct admin
 {
@@ -376,26 +382,6 @@ void menuVisitor()
         }
     } while (pilihan != 0);
 }
-
-int main()
-{
-    loadReservasi();
-    loadVisitor();
-    while (true)
-    {
-        mainmenu();
-        if (admin_aktif)
-        {
-            menuadmin();
-        }
-        else if (!username_aktif.empty())
-        {
-            menuVisitor();
-        }
-    }
-    return 0;
-}
-
 bool tanggalValid(const string &tanggalInput)
 {
     int hari, bulan, tahun;
@@ -780,7 +766,6 @@ void tambahVisitor(){
                         << visit[jumlahvisitor].nama << " | "
                         << visit[jumlahvisitor].noTelp << " | "
                         << visit[jumlahvisitor].email << endl;
-            username_aktif = visit[jumlahvisitor].username;
             fileVisitor.close();
             jumlahvisitor++;
             cout << "Registrasi Pelanggan Baru Berhasil!\n";
@@ -987,4 +972,82 @@ void menuLaporan()
             waitEnter();
         }
     } while (pilihan != 0);
+}
+
+void manajemenReservasi()
+{
+    int pilihan;
+    do
+    {
+        clearScreen();
+        cout << "==================================================\n";
+        cout << "              MANAJEMEN RESERVASI                 \n";
+        cout << "==================================================\n";
+        cout << "1. Tampilkan Semua Reservasi\n";
+        cout << "2. Konfirmasi Reservasi\n";
+        cout << "3. Batalkan Reservasi\n";
+        cout << "0. Kembali\n";
+        cout << "==================================================\n";
+        cout << "Pilih opsi (0-3): ";
+        cin >> pilihan;
+        cout << "--------------------------------------------------\n";
+
+        switch (pilihan)
+        {
+        case 1:
+            tampilSemuaReservasi();
+            break;
+        case 2:
+            konfirmasiReservasi();
+            break;
+        case 3:
+            batalkanReservasiAdmin();
+            break;
+        case 0:
+            cout << "Kembali ke Menu Admin...\n";
+            break;
+        default:
+            cout << "Pilihan tidak valid!\n";
+            waitEnter();
+        }
+    } while (pilihan != 0);
+}
+void tampilSemuaReservasi()
+{
+    clearScreen();
+    cout << "==============================================================\n";
+    cout << "                      SEMUA RESERVASI                         \n";
+    cout << "==============================================================\n";
+}
+void konfirmasiReservasi()
+{
+    clearScreen();
+    cout << "==============================================================\n";
+    cout << "                  KONFIRMASI RESERVASI                        \n";
+    cout << "==============================================================\n";
+}
+void batalkanReservasiAdmin()
+{
+    clearScreen();
+    cout << "==============================================================\n";
+    cout << "                  BATALKAN RESERVASI ADMIN                    \n";
+    cout << "==============================================================\n";
+}
+int main()
+{
+    loadReservasi();
+    loadVisitor();
+    while (true)
+    {
+        mainmenu();
+        if (admin_aktif)
+        {
+            menuadmin();
+        }
+        else if (!username_aktif.empty())
+        {
+            menuVisitor();
+        }
+    }
+    return 0;
 }
