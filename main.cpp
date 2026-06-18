@@ -82,6 +82,16 @@ string Lower(string nama)
     return nama;
 }
 
+bool validasiAngka(int &angka){
+    cin >> angka;
+    if(cin.fail()){
+        cin.clear();
+        cin.ignore(1000, '\n');
+        return false;
+    }
+    return true;
+}
+
 bool cekUsernameDuplikat(string usernameBaru)
 {
     ifstream fileVisitor("visitor.txt");
@@ -110,41 +120,73 @@ void clearScreen()
 
 void waitEnter()
 {
-    cout << "Tekan ENTER untuk melanjutkan...";
-    cin.ignore();
+    cout << "\nTekan ENTER untuk melanjutkan...";
+    cin.clear();
     cin.get();
 }
 
 void mainmenu()
 {
-    clearScreen();
     int pilihan;
-
-    cout << "==================================================\n";
-    cout << "          SELAMAT DATANG DI STUDIO FOTO           \n";
-    cout << "==================================================\n";
-    cout << "1. Admin \n";
-    cout << "2. Visitor\n";
-    cout << "0. Keluar\n";
-    cout << "==================================================\n";
-    cout << "Pilih opsi (0-2): ";
-    cin >> pilihan;
-    cout << "--------------------------------------------------\n";
-    if (pilihan == 2)
+    while(true)
     {
         clearScreen();
-        int pilihanVisitor;
         cout << "==================================================\n";
-        cout << "                  MENU VISITOR                    \n";
+        cout << "          SELAMAT DATANG DI STUDIO FOTO           \n";
         cout << "==================================================\n";
-        cout << "1. Sign In (Masuk)\n";
-        cout << "2. Sign Up (Daftar Akun Baru)\n";
-        cout << "0. Kembali ke Menu Utama\n";
+        cout << "1. Admin\n";
+        cout << "2. Visitor\n";
+        cout << "0. Keluar\n";
         cout << "==================================================\n";
         cout << "Pilih opsi (0-2): ";
-        cin >> pilihanVisitor;
-        cout << "--------------------------------------------------\n";
-        system("cls");
+        if(!validasiAngka(pilihan))
+        {
+            cout << "--------------------------------------------------\n";
+            cout << "Input harus berupa angka!";
+            waitEnter();
+            continue;
+        }
+        if(pilihan < 0 || pilihan > 2)
+        {
+            cout << "--------------------------------------------------\n";
+            cout << "Pilihan tidak valid!";
+            cin.ignore(1000, '\n');
+            waitEnter();
+            continue;
+        }
+        break;
+    }
+    if (pilihan == 2)
+    {
+        int pilihanVisitor;
+        while(true)
+        {
+            clearScreen();
+            cout << "==================================================\n";
+            cout << "                  MENU VISITOR                    \n";
+            cout << "==================================================\n";
+            cout << "1. Sign In (Masuk)\n";
+            cout << "2. Sign Up (Daftar Akun Baru)\n";
+            cout << "0. Kembali ke Menu Utama\n";
+            cout << "==================================================\n";
+            cout << "Pilih opsi (0-2): ";
+            if(!validasiAngka(pilihanVisitor))
+            {
+                cout << "--------------------------------------------------\n";
+                cout << "Input harus berupa angka!";
+                waitEnter();
+                continue;
+            }
+            if(pilihanVisitor < 0 || pilihanVisitor > 2)
+            {
+                cout << "--------------------------------------------------\n";
+                cout << "Pilihan tidak valid!";
+                cin.ignore(1000, '\n');
+                waitEnter();
+                continue;
+            }
+            break;
+        }
         if (pilihanVisitor == 2)
         {
             clearScreen();
@@ -251,18 +293,39 @@ void mainmenu()
     }
     else if (pilihan == 1)
     {
-        clearScreen();
         int pilihanAdmin;
-        cout << "==================================================\n";
-        cout << "                  MENU ADMIN                      \n";
-        cout << "==================================================\n";
-        cout << "1. Sign In (Masuk)\n";
-        cout << "0. Kembali\n";
-        cout << "==================================================\n";
-        cout << "Pilih opsi (0-1): ";
-        cin >> pilihanAdmin;
-        cout << "--------------------------------------------------\n";
-        system("cls");
+
+        while(true)
+        {
+            clearScreen();
+
+            cout << "==================================================\n";
+            cout << "                  MENU ADMIN                      \n";
+            cout << "==================================================\n";
+            cout << "1. Sign In (Masuk)\n";
+            cout << "0. Kembali\n";
+            cout << "==================================================\n";
+            cout << "Pilih opsi (0-1): ";
+
+            if(!validasiAngka(pilihanAdmin))
+            {
+                cout << "--------------------------------------------------\n";
+                cout << "Input harus berupa angka!";
+                waitEnter();
+                continue;
+            }
+
+            if(pilihanAdmin < 0 || pilihanAdmin > 1)
+            {
+                cout << "--------------------------------------------------\n";
+                cout << "Pilihan tidak valid!";
+                cin.ignore(1000, '\n');
+                waitEnter();
+                continue;
+            }
+
+            break;
+        }
         if (pilihanAdmin == 1)
         {
             clearScreen();
@@ -317,9 +380,23 @@ void menuadmin()
         cout << "0. Keluar\n";
         cout << "==================================================\n";
         cout << "Pilih opsi (0-3): ";
-        cin >> pilihan;
+        if (!validasiAngka(pilihan))
+        {
+            pilihan = -1;
+            cout << "--------------------------------------------------\n";
+            cout << "Input harus berupa angka!";
+            waitEnter();
+            continue;
+        }
+        if(pilihan < 0 || pilihan > 3)
+        {
+            cout << "--------------------------------------------------\n";
+            cout << "Pilihan tidak valid!";
+            cin.ignore(1000, '\n');
+            waitEnter();
+            continue;
+        }
         cout << "--------------------------------------------------\n";
-        system("cls");
         switch (pilihan)
         {
         case 1:
@@ -335,8 +412,6 @@ void menuadmin()
             admin_aktif = false;
             cout << "Keluar dari Menu Admin...\n";
             break;
-        default:
-            cout << "Pilihan tidak valid!\n";
         }
     } while (pilihan != 0);
 }
@@ -358,7 +433,22 @@ void menuVisitor()
         cout << "0. Keluar\n";
         cout << "==================================================\n";
         cout << "Pilih opsi (0-3): ";
-        cin >> pilihan;
+        if (!validasiAngka(pilihan))
+        {
+            pilihan = -1;
+            cout << "--------------------------------------------------\n";
+            cout << "Input harus berupa angka!";
+            waitEnter();
+            continue;
+        }
+        if(pilihan < 0 || pilihan > 3)
+        {
+            cout << "--------------------------------------------------\n";
+            cout << "Pilihan tidak valid!";
+            cin.ignore(1000, '\n');
+            waitEnter();
+            continue;
+        }
         cout << "--------------------------------------------------\n";
         switch (pilihan)
         {
@@ -376,7 +466,9 @@ void menuVisitor()
             cout << "Keluar dari Menu Visitor...\n";
             break;
         default:
-            cout << "Pilihan tidak valid!\n";
+            cout << "Pilihan tidak valid!";
+            waitEnter();
+            break;
         }
     } while (pilihan != 0);
 }
@@ -417,36 +509,47 @@ void buatReservasi()
     reservasi reservasi_baru;
     reservasi_baru.idReservasi = jumlahreservasi + 1;
     reservasi_baru.usernameVisitor = username_aktif;
-    cout << "==================================================\n";
-    cout << "                BUAT RESERVASI                    \n";
-    cout << "==================================================\n";
-    cout << left
-         << setw(5) << "No"
-         << setw(15) << "Paket"
-         << setw(15) << "Harga Paket"
-         << endl;
-    cout << "--------------------------------------------------\n";
-    for (int i = 0; i < 4; i++)
-    {
-        cout << left
-             << setw(5) << i + 1
-             << setw(15) << DAFTAR_PAKET[i]
-             << "Rp " << HARGA_PAKET[i]
-             << endl;
-    }
-    cout << "--------------------------------------------------\n";
-    cout << "* Harga sudah termasuk 2 jam sesi.\n";
-    cout << "* Tambahan jam dikenakan Rp" << biayaTambahan << "/jam.\n";
-    cout << "* Maksimal reservasi 8 jam.\n";
-    cout << "--------------------------------------------------\n";
     int pilihanPaket;
-    cout << "Pilih Paket : ";
-    cin >> pilihanPaket;
-    if (pilihanPaket < 1 || pilihanPaket > 4)
+    while (true)
     {
-        cout << "Pilihan paket tidak valid!\n";
-        waitEnter();
-        return;
+        clearScreen();
+        cout << "==================================================\n";
+        cout << "                BUAT RESERVASI                    \n";
+        cout << "==================================================\n";
+        cout << left
+            << setw(5) << "No"
+            << setw(15) << "Paket"
+            << setw(15) << "Harga Paket"
+            << endl;
+        cout << "--------------------------------------------------\n";
+        for (int i = 0; i < 4; i++)
+        {
+            cout << left
+                << setw(5) << i + 1
+                << setw(15) << DAFTAR_PAKET[i]
+                << "Rp " << HARGA_PAKET[i]
+                << endl;
+        }
+        cout << "--------------------------------------------------\n";
+        cout << "* Harga sudah termasuk 2 jam sesi.\n";
+        cout << "* Tambahan jam dikenakan Rp" << biayaTambahan << "/jam.\n";
+        cout << "* Maksimal reservasi 8 jam.\n";
+        cout << "--------------------------------------------------\n";
+        cout << "Pilih Paket : ";
+        if (!validasiAngka(pilihanPaket))
+        {
+            cout << "Input harus berupa angka!";
+            waitEnter();
+            return;
+        }
+        if (pilihanPaket < 1 || pilihanPaket > 4)
+        {
+            cout << "Pilihan paket tidak valid!";
+            cin.ignore(1000, '\n');
+            waitEnter();
+            return;
+        }
+        break;
     }
     reservasi_baru.namaPaket = DAFTAR_PAKET[pilihanPaket - 1];
     reservasi_baru.harga = HARGA_PAKET[pilihanPaket - 1];
@@ -612,6 +715,8 @@ void lihatReservasiSaya()
         cout << "Belum ada reservasi.\n";
         cout << "--------------------------------------------------------------\n";
     }
+    cin.clear();
+    cin.ignore(1000, '\n');
     waitEnter();
 }
 void batalkanReservasi()
@@ -702,6 +807,8 @@ void tampilkanSemuaVisitor()
         }
     }
     cout << "==============================================================\n";
+    cin.clear();
+    cin.ignore(1000, '\n');
     waitEnter();
 }
 void cariVisitor()
@@ -811,7 +918,22 @@ void kelolapelanggan()
         cout << "0. Kembali\n";
         cout << "==============================================================\n";
         cout << "Pilih opsi (0-3): ";
-        cin >> pilihan;
+        if (!validasiAngka(pilihan))
+        {
+            pilihan = -1;
+            cout << "--------------------------------------------------\n";
+            cout << "Input harus berupa angka!";
+            waitEnter();
+            continue;
+        }
+        if(pilihan < 0 || pilihan > 3)
+        {
+            cout << "--------------------------------------------------\n";
+            cout << "Pilihan tidak valid!";
+            cin.ignore(1000, '\n');
+            waitEnter();
+            continue;
+        }
         cout << "--------------------------------------------------------------\n";
         switch (pilihan)
         {
@@ -888,6 +1010,8 @@ void laporanJumlahReservasi()
     }
 
     cout << "=======================================================================\n";
+    cin.clear();
+    cin.ignore(1000, '\n');
     waitEnter();
 }
 
@@ -1011,9 +1135,24 @@ void manajemenReservasi()
         cout << "0. Kembali\n";
         cout << "==================================================\n";
         cout << "Pilih opsi (0-3): ";
-        cin >> pilihan;
+                if (!validasiAngka(pilihan))
+        {
+            pilihan = -1;
+            cout << "--------------------------------------------------\n";
+            cout << "Input harus berupa angka!";
+            waitEnter();
+            continue;
+        }
+        if(pilihan < 0 || pilihan > 3)
+        {
+            cin.clear();
+            cin.ignore(1000, '\n');
+            cout << "--------------------------------------------------\n";
+            cout << "Pilihan tidak valid!";
+            waitEnter();
+            continue;
+        }
         cout << "--------------------------------------------------\n";
-
         switch (pilihan)
         {
         case 1:
