@@ -48,6 +48,7 @@ struct reservasi
     int totalBiaya;
     string status;
 };
+
 const string DAFTAR_PAKET[4] = {"Wisuda", "Prewedding", "Keluarga", "Produk"};
 const int HARGA_PAKET[4] = {700000, 1500000, 750000, 400000};
 const int biayaTambahan = 100000;
@@ -62,7 +63,7 @@ reservasi reservasiList[maks_reservasi];
 
 string username_aktif;
 bool admin_aktif = false;
-
+visitor *ptr_visitor_aktif = nullptr;
 admin daftarAdmin[6] = {
     {"Solose", "Solose17012007"},
     {"Cayla", "Cayla123"},
@@ -227,6 +228,7 @@ void mainmenu()
                                 << visit[jumlahvisitor].noTelp << " | "
                                 << visit[jumlahvisitor].email << endl;
                     username_aktif = visit[jumlahvisitor].username;
+                    ptr_visitor_aktif = &visit[jumlahvisitor];
                     fileVisitor.close();
                     jumlahvisitor++;
                     cout << "Registrasi Berhasil!\n";
@@ -276,13 +278,26 @@ void mainmenu()
             if (berhasil)
             {
                 username_aktif = tempvisitorUsername;
+                
+                for (int i = 0; i < jumlahvisitor; i++){
+                	if (visit[i].username == username_aktif) {
+                		ptr_visitor_aktif = &visit[i];
+                		break;
+					}
+				}
+				
+				if (ptr_visitor_aktif != nullptr) {
+					cout << "Sign In Berhasil! Selamat Datang, " << ptr_visitor_aktif -> nama << endl;
+				} 
+				else {
                 cout << "Sign In Berhasil! Selamat datang, " << username_aktif << endl;
-                system("pause");
+				}
+				waitEnter();
             }
             else
             {
                 cout << "Username atau password salah!\n";
-                system("pause");
+                waitEnter();
             }
         }
     }
@@ -339,9 +354,10 @@ void mainmenu()
             getline(cin >> ws, tempadminPassword);
             cout << "--------------------------------------------------\n";
             bool berhasil = false;
+            admin *ptrAdmin = daftarAdmin;
             for (int i = 0; i < 6; i++)
             {
-                if (daftarAdmin[i].username == tempadminUsername && daftarAdmin[i].password == tempadminPassword)
+                if ((ptrAdmin + i)->username == tempadminUsername && (ptrAdmin + i)->password == tempadminPassword)
                 {
                     berhasil = true;
                     break;
@@ -425,7 +441,12 @@ void menuVisitor()
         cout << "==================================================\n";
         cout << "                 MENU VISITOR                     \n";
         cout << "==================================================\n";
-        cout << "Selamat datang, " << username_aktif << "!\n";
+        if (ptr_visitor_aktif != nullptr) {
+        	cout << "Selamat datang, " << ptr_visitor_aktif -> nama << "("<< username_aktif << ")!\n";
+		}else 
+		{
+        	cout << "Selamat datang, " <<  username_aktif << "!\n";
+		}
         cout << "--------------------------------------------------\n";
         cout << "1. Buat Reservasi\n";
         cout << "2. Lihat Reservasi Saya\n";
@@ -463,6 +484,7 @@ void menuVisitor()
             break;
         case 0:
             username_aktif = "";
+            ptr_visitor_aktif = nullptr;
             cout << "Keluar dari Menu Visitor...\n";
             break;
         default:
@@ -496,6 +518,23 @@ bool tanggalValid(const string &tanggalInput)
     besok.tm_sec = 0;
     time_t waktuBesok = mktime(&besok);
     return waktuReservasi >= waktuBesok;
+}
+
+void tampilDetailReservasi (const reservasi *res){
+	cout << "ID Reservasi : " << res -> idReservasi << endl;
+    cout << "Paket        : " << res -> namaPaket << endl;
+    cout << "Tanggal      : " << res -> tanggal << endl;
+    cout << "Harga Paket  : Rp" << res -> harga << endl;
+    cout << "Durasi       : " << res -> durasi << " jam\n";
+    if (res -> durasi > 2)
+    {
+        cout << "Tambahan Jam : "
+             << (res -> durasi - 2)
+             << " x Rp" << biayaTambahan << endl;
+    }
+    cout << "Total Biaya  : Rp" << res -> totalBiaya << endl;
+    cout << "Status       : " << res -> status << endl;
+    cout << "--------------------------------------------------\n";
 }
 
 void buatReservasi()
@@ -603,22 +642,25 @@ void buatReservasi()
     cout << "--------------------------------------------------\n";
     cout << "Reservasi berhasil dibuat!\n";
     cout << "--------------------------------------------------\n";
-    cout << "ID Reservasi : " << reservasi_baru.idReservasi << endl;
-    cout << "Paket        : " << reservasi_baru.namaPaket << endl;
-    cout << "Tanggal      : " << reservasi_baru.tanggal << endl;
-    cout << "Harga Paket  : Rp" << reservasi_baru.harga << endl;
-    cout << "Durasi       : " << reservasi_baru.durasi << " jam\n";
-    if (reservasi_baru.durasi > 2)
-    {
-        cout << "Tambahan Jam : "
-             << (reservasi_baru.durasi - 2)
-             << " x Rp" << biayaTambahan << endl;
-    }
-    cout << "Total Biaya  : Rp" << reservasi_baru.totalBiaya << endl;
-    cout << "Status       : " << reservasi_baru.status << endl;
-    cout << "--------------------------------------------------\n";
+    tampilDetailReservasi (&reservasi_baru);
+    cin.ignore(1000, '\n');
     waitEnter();
+//    cout << "ID Reservasi : " << reservasi_baru.idReservasi << endl;
+//    cout << "Paket        : " << reservasi_baru.namaPaket << endl;
+//    cout << "Tanggal      : " << reservasi_baru.tanggal << endl;
+//    cout << "Harga Paket  : Rp" << reservasi_baru.harga << endl;
+//    cout << "Durasi       : " << reservasi_baru.durasi << " jam\n";
+//    if (reservasi_baru.durasi > 2)
+//    {
+//        cout << "Tambahan Jam : "
+//             << (reservasi_baru.durasi - 2)
+//             << " x Rp" << biayaTambahan << endl;
+//    }
+//    cout << "Total Biaya  : Rp" << reservasi_baru.totalBiaya << endl;
+//    cout << "Status       : " << reservasi_baru.status << endl;
+//    cout << "--------------------------------------------------\n";
 }
+
 void loadVisitor()
 {
     ifstream fileVisitor("visitor.txt");
@@ -1082,6 +1124,7 @@ void laporanTotalPendapatan()
     cout << "  TOTAL PENDAPATAN         : Rp" << pendapatanTotal << "\n";
     cout << "  (tidak termasuk reservasi yang dibatalkan)\n";
     cout << "==============================================================\n";
+    cin.ignore(1000, '\n');
     waitEnter();
 }
 
@@ -1211,6 +1254,7 @@ void tampilSemuaReservasi()
              << endl;
     }
     cout << "=======================================================================\n";
+    cin.ignore(1000, '\n');
     waitEnter();
 }
 void konfirmasiReservasi()
@@ -1411,8 +1455,8 @@ void batalkanReservasiAdmin()
 
 int main()
 {
-    loadReservasi();
     loadVisitor();
+    loadReservasi();
     while (true)
     {
         mainmenu();
