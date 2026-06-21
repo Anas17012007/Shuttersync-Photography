@@ -1,0 +1,164 @@
+<svg width="900" height="300" viewBox="0 0 900 300" xmlns="http://www.w3.org/2000/svg">
+<defs>
+  <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+    <stop offset="0%" style="stop-color:#0f0a2e"/>
+    <stop offset="40%" style="stop-color:#1a1060"/>
+    <stop offset="100%" style="stop-color:#0d1a5c"/>
+  </linearGradient>
+  <linearGradient id="lineGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+    <stop offset="0%" style="stop-color:#a855f7"/>
+    <stop offset="100%" style="stop-color:#3b82f6"/>
+  </linearGradient>
+  <linearGradient id="lens1" x1="0%" y1="0%" x2="100%" y2="100%">
+    <stop offset="0%" style="stop-color:#4f46e5"/>
+    <stop offset="100%" style="stop-color:#1e3a8a"/>
+  </linearGradient>
+  <linearGradient id="lens2" x1="0%" y1="0%" x2="100%" y2="100%">
+    <stop offset="0%" style="stop-color:#818cf8"/>
+    <stop offset="100%" style="stop-color:#38bdf8"/>
+  </linearGradient>
+  <radialGradient id="glowLeft" cx="25%" cy="50%" r="40%">
+    <stop offset="0%" style="stop-color:#6d28d9;stop-opacity:0.4"/>
+    <stop offset="100%" style="stop-color:#6d28d9;stop-opacity:0"/>
+  </radialGradient>
+  <radialGradient id="glowRight" cx="75%" cy="50%" r="35%">
+    <stop offset="0%" style="stop-color:#1d4ed8;stop-opacity:0.25"/>
+    <stop offset="100%" style="stop-color:#1d4ed8;stop-opacity:0"/>
+  </radialGradient>
+  <clipPath id="roundAll">
+    <rect width="900" height="300" rx="16"/>
+  </clipPath>
+</defs>
+
+<g clip-path="url(#roundAll)">
+  <!-- Background -->
+  <rect width="900" height="300" fill="url(#bg)"/>
+  <rect width="900" height="300" fill="url(#glowLeft)"/>
+  <rect width="900" height="300" fill="url(#glowRight)"/>
+
+  <!-- Decorative circles top-right -->
+  <circle cx="820" cy="60" r="110" fill="none" stroke="#4338ca" stroke-width="0.6" opacity="0.3"/>
+  <circle cx="820" cy="60" r="78" fill="none" stroke="#3b82f6" stroke-width="0.5" opacity="0.2"/>
+  <circle cx="820" cy="60" r="46" fill="none" stroke="#6366f1" stroke-width="0.4" opacity="0.2"/>
+
+  <!-- Decorative circles bottom-left -->
+  <circle cx="50" cy="270" r="90" fill="none" stroke="#5b21b6" stroke-width="0.5" opacity="0.2"/>
+
+  <!-- Scattered stars/dots -->
+  <circle cx="420" cy="22" r="1.4" fill="#c4b5fd" opacity="0.7"/>
+  <circle cx="560" cy="15" r="1" fill="#93c5fd" opacity="0.6"/>
+  <circle cx="700" cy="30" r="1.6" fill="#e879f9" opacity="0.5"/>
+  <circle cx="860" cy="160" r="1.2" fill="#7dd3fc" opacity="0.6"/>
+  <circle cx="870" cy="240" r="1" fill="#a78bfa" opacity="0.5"/>
+  <circle cx="30" cy="80" r="1.2" fill="#c4b5fd" opacity="0.4"/>
+  <circle cx="15" cy="180" r="1" fill="#7dd3fc" opacity="0.4"/>
+  <circle cx="340" cy="275" r="1.3" fill="#e879f9" opacity="0.4"/>
+  <!-- 4-point star -->
+  <path d="M800 22 L802 29 L809 31 L802 33 L800 40 L798 33 L791 31 L798 29 Z" fill="#c4b5fd" opacity="0.45"/>
+  <path d="M55 130 L56.5 135 L62 136.5 L56.5 138 L55 143 L53.5 138 L48 136.5 L53.5 135 Z" fill="#7dd3fc" opacity="0.35"/>
+
+  <!-- FILM STRIP right -->
+  <g transform="translate(845, 50)" opacity="0.5">
+    <rect x="0" y="0" width="28" height="200" rx="3" fill="#0f0a2e" stroke="#5b21b6" stroke-width="1"/>
+    <rect x="3" y="8" width="22" height="16" rx="1.5" fill="#1e1254"/>
+    <rect x="3" y="30" width="22" height="16" rx="1.5" fill="#1e1254"/>
+    <rect x="3" y="52" width="22" height="16" rx="1.5" fill="#1e1254"/>
+    <rect x="3" y="74" width="22" height="16" rx="1.5" fill="#1e1254"/>
+    <rect x="3" y="96" width="22" height="16" rx="1.5" fill="#1e1254"/>
+    <rect x="3" y="118" width="22" height="16" rx="1.5" fill="#1e1254"/>
+    <rect x="3" y="140" width="22" height="16" rx="1.5" fill="#1e1254"/>
+    <rect x="3" y="162" width="22" height="16" rx="1.5" fill="#1e1254"/>
+    <rect x="3" y="182" width="22" height="12" rx="1.5" fill="#1e1254"/>
+    <rect x="-5" y="10" width="6" height="9" rx="1.5" fill="#2d1b69"/>
+    <rect x="-5" y="32" width="6" height="9" rx="1.5" fill="#2d1b69"/>
+    <rect x="-5" y="54" width="6" height="9" rx="1.5" fill="#2d1b69"/>
+    <rect x="-5" y="76" width="6" height="9" rx="1.5" fill="#2d1b69"/>
+    <rect x="-5" y="98" width="6" height="9" rx="1.5" fill="#2d1b69"/>
+    <rect x="-5" y="120" width="6" height="9" rx="1.5" fill="#2d1b69"/>
+    <rect x="-5" y="142" width="6" height="9" rx="1.5" fill="#2d1b69"/>
+    <rect x="-5" y="164" width="6" height="9" rx="1.5" fill="#2d1b69"/>
+    <rect x="28" y="10" width="6" height="9" rx="1.5" fill="#2d1b69"/>
+    <rect x="28" y="32" width="6" height="9" rx="1.5" fill="#2d1b69"/>
+    <rect x="28" y="54" width="6" height="9" rx="1.5" fill="#2d1b69"/>
+    <rect x="28" y="76" width="6" height="9" rx="1.5" fill="#2d1b69"/>
+    <rect x="28" y="98" width="6" height="9" rx="1.5" fill="#2d1b69"/>
+    <rect x="28" y="120" width="6" height="9" rx="1.5" fill="#2d1b69"/>
+    <rect x="28" y="142" width="6" height="9" rx="1.5" fill="#2d1b69"/>
+    <rect x="28" y="164" width="6" height="9" rx="1.5" fill="#2d1b69"/>
+  </g>
+
+  <!-- CAMERA BODY - larger, centered left -->
+  <g transform="translate(48, 38)">
+    <!-- Main body -->
+    <rect x="0" y="30" width="200" height="155" rx="16" fill="#110826" stroke="#4338ca" stroke-width="1.8"/>
+    <!-- Top deck -->
+    <rect x="28" y="10" width="90" height="32" rx="8" fill="#110826" stroke="#4338ca" stroke-width="1.5"/>
+    <!-- Mode dial -->
+    <circle cx="158" cy="26" r="18" fill="#1a0e4a" stroke="#5b21b6" stroke-width="1.2"/>
+    <circle cx="158" cy="26" r="11" fill="#0f0a2e" stroke="#7c3aed" stroke-width="1"/>
+    <circle cx="158" cy="26" r="5" fill="#1e1254"/>
+    <!-- Shutter button -->
+    <circle cx="95" cy="10" r="10" fill="#7c3aed" opacity="0.9"/>
+    <circle cx="95" cy="10" r="5.5" fill="#c4b5fd" opacity="0.5"/>
+    <!-- Viewfinder bump -->
+    <rect x="38" y="2" width="30" height="14" rx="4" fill="#1a0e4a" stroke="#4338ca" stroke-width="1"/>
+    <!-- AF lamp -->
+    <circle cx="24" cy="52" r="6" fill="#a855f7" opacity="0.85"/>
+    <circle cx="24" cy="52" r="3" fill="#f0abfc" opacity="0.55"/>
+    <!-- Lens mount ring -->
+    <circle cx="100" cy="107" r="62" fill="#08051a" stroke="#3730a3" stroke-width="2.5"/>
+    <circle cx="100" cy="107" r="56" fill="none" stroke="#4f46e5" stroke-width="1" opacity="0.5"/>
+    <!-- Lens layers -->
+    <circle cx="100" cy="107" r="48" fill="url(#lens1)"/>
+    <circle cx="100" cy="107" r="36" fill="url(#lens2)" opacity="0.95"/>
+    <circle cx="100" cy="107" r="22" fill="#060d30"/>
+    <circle cx="100" cy="107" r="12" fill="#0b1850"/>
+    <circle cx="100" cy="107" r="5" fill="#1e3a8a"/>
+    <!-- Lens reflection -->
+    <ellipse cx="88" cy="94" rx="8" ry="5.5" fill="white" opacity="0.11" transform="rotate(-20,88,94)"/>
+    <circle cx="112" cy="118" r="3" fill="white" opacity="0.06"/>
+    <!-- Strap lugs -->
+    <rect x="-13" y="50" width="15" height="24" rx="5" fill="#1a0e4a" stroke="#4338ca" stroke-width="1"/>
+    <rect x="198" y="50" width="15" height="24" rx="5" fill="#1a0e4a" stroke="#4338ca" stroke-width="1"/>
+    <!-- Memory card slot -->
+    <rect x="184" y="90" width="9" height="32" rx="2.5" fill="#1a0e4a" stroke="#3730a3" stroke-width="0.8"/>
+    <!-- Top controls -->
+    <rect x="130" y="16" width="16" height="8" rx="3" fill="#1a0e4a" stroke="#5b21b6" stroke-width="0.8"/>
+  </g>
+
+  <!-- APERTURE decoration (between camera and text) -->
+  <g transform="translate(298, 150)" opacity="0.45">
+    <circle cx="0" cy="0" r="38" fill="none" stroke="#5b21b6" stroke-width="0.9"/>
+    <circle cx="0" cy="0" r="26" fill="none" stroke="#3b82f6" stroke-width="0.7"/>
+    <circle cx="0" cy="0" r="13" fill="none" stroke="#6d28d9" stroke-width="0.5"/>
+    <line x1="0" y1="-38" x2="0" y2="38" stroke="#5b21b6" stroke-width="0.8"/>
+    <line x1="-38" y1="0" x2="38" y2="0" stroke="#5b21b6" stroke-width="0.8"/>
+    <line x1="-27" y1="-27" x2="27" y2="27" stroke="#5b21b6" stroke-width="0.5" opacity="0.6"/>
+    <line x1="27" y1="-27" x2="-27" y2="27" stroke="#5b21b6" stroke-width="0.5" opacity="0.6"/>
+  </g>
+
+  <!-- TEXT SECTION -->
+  <!-- Main title: ShutterSync - single word, big bold serif -->
+  <text x="355" y="148"
+    font-family="'Georgia', 'Times New Roman', serif"
+    font-size="82" font-weight="700"
+    fill="white"
+    opacity="0.97">ShutterSync</text>
+
+  <!-- PHOTOGRAPHY spaced subtitle -->
+  <text x="358" y="182"
+    font-family="Arial, Helvetica, sans-serif"
+    font-size="16" font-weight="400" letter-spacing="8"
+    fill="#a5b4fc" opacity="0.9">P H O T O G R A P H Y</text>
+
+  <!-- Purple-blue accent line -->
+  <rect x="358" y="196" width="460" height="2" rx="1" fill="url(#lineGrad)" opacity="0.85"/>
+
+  <!-- Tagline -->
+  <text x="358" y="228"
+    font-family="Arial, Helvetica, sans-serif"
+    font-size="14.5" font-weight="400" letter-spacing="0.5"
+    fill="#93c5fd" opacity="0.8">Photography Reservation Management System · Built with C++</text>
+
+</g>
+</svg>
