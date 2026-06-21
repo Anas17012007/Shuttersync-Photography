@@ -9,3 +9,4 @@
 9 | hu | Wisuda | 09/10/2026 | 3 | 700000 | 800000 | Dibatalkan
 10 | yg | Wisuda | 09/10/2026 | 4 | 700000 | 900000 | Dibatalkan
 11 | hr | Prewedding | 09/10/2026 | 3 | 1500000 | 1600000 | Dibatalkan
+12 | h | Prewedding | 09/10/2026 | 3 | 1500000 | 1600000 | Dibatalkan
