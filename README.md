@@ -79,17 +79,15 @@ Menu ini diakses melalui **Menu Admin → Laporan**:
 
 ### Kompilasi & Jalankan
 
-```bash
 # Clone repositori ini
-git clone https://github.com/username/shuttersync.git
-cd shuttersync
+git clone https://github.com/Anas17012007/Shuttersync-Photography.git
+cd Shuttersync-Photography
 
 # Kompilasi
-g++ -o shuttersync main.cpp
+g++ -o main main.cpp
 
 # Jalankan
-./shuttersync        # Linux / macOS
-shuttersync.exe      # Windows
+main.exe      # Windows
 ```
 
 ### Alur Penggunaan
@@ -130,7 +128,7 @@ shuttersync.exe      # Windows
 ## 🗃️ Struktur File
 
 ```
-shuttersync/
+Shuttersync-Photography/
 ├── main.cpp          # Source code utama
 ├── visitor.txt       # Database pelanggan (dibuat otomatis)
 ├── reservasi.txt     # Database reservasi (dibuat otomatis)
