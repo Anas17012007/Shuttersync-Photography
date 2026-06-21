@@ -74,11 +74,12 @@ Menu ini diakses melalui **Menu Admin → Laporan**:
 ## 🚀 Cara Pakai
 
 ### Prasyarat
-- Compiler C++ (g++ / MinGW / Clang)
+- Compiler C++
 - Terminal / Command Prompt
 
 ### Kompilasi & Jalankan
 
+```bash
 # Clone repositori ini
 git clone https://github.com/Anas17012007/Shuttersync-Photography.git
 cd Shuttersync-Photography
