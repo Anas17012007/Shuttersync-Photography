@@ -4,7 +4,16 @@
 #include <fstream>
 #include <iomanip>
 using namespace std;
-
+const string RESET = "\033[0m";
+const string BOLD = "\033[1m";
+const string RED = "\033[31m";
+const string GREEN = "\033[32m";
+const string YELLOW = "\033[33m";
+const string BLUE = "\033[34m";
+const string MAGENTA = "\033[35m";
+const string CYAN = "\033[36m";
+const string WHITE = "\033[37m";
+const string GRAY = "\033[90m";
 void buatReservasi();
 bool tanggalValid(const string &tanggalInput);
 void loadReservasi();
@@ -83,9 +92,11 @@ string Lower(string nama)
     return nama;
 }
 
-bool validasiAngka(int &angka){
+bool validasiAngka(int &angka)
+{
     cin >> angka;
-    if(cin.fail()){
+    if (cin.fail())
+    {
         cin.clear();
         cin.ignore(1000, '\n');
         return false;
@@ -129,28 +140,39 @@ void waitEnter()
 void mainmenu()
 {
     int pilihan;
-    while(true)
+    while (true)
     {
         clearScreen();
-        cout << "==================================================\n";
-        cout << "          SELAMAT DATANG DI STUDIO FOTO           \n";
-        cout << "==================================================\n";
-        cout << "1. Admin\n";
-        cout << "2. Visitor\n";
-        cout << "0. Keluar\n";
-        cout << "==================================================\n";
+        cout << CYAN << "+=============================================================================================+\n"
+             << RESET;
+        cout << "\n";
+        cout << CYAN << " ____  _               _   _                                      _____      _\n";
+        cout << MAGENTA << "/ ___|| |__  _   _ ___| |_| |_ ___ _ __ ___ _   _ _ __   ___      |  ___|___ | |_ ___\n";
+        cout << BLUE << "\\___ \\| '_ \\| | | / __| __| __/ _ \\ '__/ __| | | | '_ \\ / __|     | |_  / _ \\| __/ _ \\\n";
+        cout << CYAN << " ___) | | | | |_| \\__ \\ |_| ||  __/ |  \\__ \\ |_| | | | | (__      |  _|| (_) | || (_) |\n";
+        cout << MAGENTA << "|____/|_| |_|\\__,_|___/\\__|\\__\\___|_|  |___/\\__, |_| |_|\\___|     |_|   \\___/ \\__\\___/\n";
+        cout << BLUE << "                                              |___/\n";
+        cout << RESET;
+        cout << "\n";
+        cout << CYAN << "+=============================================================================================+\n"
+             << RESET;
+        cout << YELLOW << "[1] " << RESET << "Admin\n";
+        cout << YELLOW << "[2] " << RESET << "Visitor\n";
+        cout << RED << "[0] " << RESET << "Keluar\n";
+        cout << CYAN << "==================================================\n"
+             << RESET;
         cout << "Pilih opsi (0-2): ";
-        if(!validasiAngka(pilihan))
+        if (!validasiAngka(pilihan))
         {
             cout << "--------------------------------------------------\n";
-            cout << "Input harus berupa angka!";
+            cout << RED << "[!]" << RESET << "Input harus berupa angka!";
             waitEnter();
             continue;
         }
-        if(pilihan < 0 || pilihan > 2)
+        if (pilihan < 0 || pilihan > 2)
         {
             cout << "--------------------------------------------------\n";
-            cout << "Pilihan tidak valid!";
+            cout << RED << "[!]" << RESET << "Pilihan tidak valid!";
             cin.ignore(1000, '\n');
             waitEnter();
             continue;
@@ -160,28 +182,35 @@ void mainmenu()
     if (pilihan == 2)
     {
         int pilihanVisitor;
-        while(true)
+        while (true)
         {
             clearScreen();
-            cout << "==================================================\n";
-            cout << "                  MENU VISITOR                    \n";
-            cout << "==================================================\n";
-            cout << "1. Sign In (Masuk)\n";
-            cout << "2. Sign Up (Daftar Akun Baru)\n";
-            cout << "0. Kembali ke Menu Utama\n";
-            cout << "==================================================\n";
+            cout << CYAN << "+----------------------------------------+\n"
+                 << RESET;
+            cout << CYAN << "|" << RESET << YELLOW << BOLD << "              MENU VISITOR              " << RESET << CYAN << "|\n"
+                 << RESET;
+            cout << CYAN << "+----------------------------------------+\n"
+                 << RESET;
+            cout << CYAN << "|" << RESET << "  " << YELLOW << "[1]" << RESET << " Sign In (Masuk)                 " << CYAN << "|\n"
+                 << RESET;
+            cout << CYAN << "|" << RESET << "  " << YELLOW << "[2]" << RESET << " Sign Up (Daftar Akun Baru)      " << CYAN << "|\n"
+                 << RESET;
+            cout << CYAN << "|" << RESET << "  " << RED << "[0]" << RESET << " Kembali ke Menu Utama           " << CYAN << "|\n"
+                 << RESET;
+            cout << CYAN << "+----------------------------------------+\n"
+                 << RESET;
             cout << "Pilih opsi (0-2): ";
-            if(!validasiAngka(pilihanVisitor))
+            if (!validasiAngka(pilihanVisitor))
             {
                 cout << "--------------------------------------------------\n";
-                cout << "Input harus berupa angka!";
+                cout << RED << "[!]" << RESET << "Input harus berupa angka!";
                 waitEnter();
                 continue;
             }
-            if(pilihanVisitor < 0 || pilihanVisitor > 2)
+            if (pilihanVisitor < 0 || pilihanVisitor > 2)
             {
                 cout << "--------------------------------------------------\n";
-                cout << "Pilihan tidak valid!";
+                cout << RED << "[!]" << RESET << "Pilihan tidak valid!";
                 cin.ignore(1000, '\n');
                 waitEnter();
                 continue;
@@ -191,9 +220,12 @@ void mainmenu()
         if (pilihanVisitor == 2)
         {
             clearScreen();
-            cout << "==================================================\n";
-            cout << "               REGISTRASI VISITOR                 \n";
-            cout << "==================================================\n";
+            cout << CYAN << "+----------------------------------------+\n"
+                 << RESET;
+            cout << CYAN << "|" << RESET << YELLOW << BOLD << "           REGISTRASI VISITOR           " << RESET << CYAN << "|\n"
+                 << RESET;
+            cout << CYAN << "+----------------------------------------+\n"
+                 << RESET;
             cout << "Masukkan Username Baru : ";
             getline(cin >> ws, visit[jumlahvisitor].username);
             cout << "Masukkan Password Baru : ";
@@ -211,11 +243,11 @@ void mainmenu()
                 visit[jumlahvisitor].nama.empty() ||
                 visit[jumlahvisitor].noTelp.empty())
             {
-                cout << "Semua field tidak boleh kosong!\n";
+                cout << RED << "[!]" << RESET << "Semua field tidak boleh kosong!\n";
             }
             else if (cekUsernameDuplikat(visit[jumlahvisitor].username))
             {
-                cout << "Username sudah digunakan!\n";
+                cout << RED << "[!]" << RESET << "Username sudah digunakan!\n";
             }
             else
             {
@@ -236,7 +268,7 @@ void mainmenu()
                 }
                 else
                 {
-                    cout << "Gagal membuka file!\n";
+                    cout << RED << "[!]" << RESET << "Gagal membuka file!\n";
                 }
             }
         }
@@ -248,9 +280,12 @@ void mainmenu()
         {
             clearScreen();
             string tempvisitorUsername, tempvisitorPassword;
-            cout << "==================================================\n";
-            cout << "               SIGN IN VISITOR                    \n";
-            cout << "==================================================\n";
+            cout << CYAN << "+----------------------------------------+\n"
+                 << RESET;
+            cout << CYAN << "|" << RESET << YELLOW << BOLD << "             SIGN IN VISITOR            " << RESET << CYAN << "|\n"
+                 << RESET;
+            cout << CYAN << "+----------------------------------------+\n"
+                 << RESET;
             cout << "Masukkan Username : ";
             getline(cin >> ws, tempvisitorUsername);
             cout << "Masukkan Password : ";
@@ -278,25 +313,29 @@ void mainmenu()
             if (berhasil)
             {
                 username_aktif = tempvisitorUsername;
-                
-                for (int i = 0; i < jumlahvisitor; i++){
-                	if (visit[i].username == username_aktif) {
-                		ptr_visitor_aktif = &visit[i];
-                		break;
-					}
-				}
-				
-				if (ptr_visitor_aktif != nullptr) {
-					cout << "Sign In Berhasil! Selamat Datang, " << ptr_visitor_aktif -> nama << endl;
-				} 
-				else {
-                cout << "Sign In Berhasil! Selamat datang, " << username_aktif << endl;
-				}
-				waitEnter();
+
+                for (int i = 0; i < jumlahvisitor; i++)
+                {
+                    if (visit[i].username == username_aktif)
+                    {
+                        ptr_visitor_aktif = &visit[i];
+                        break;
+                    }
+                }
+
+                if (ptr_visitor_aktif != nullptr)
+                {
+                    cout << "Sign In Berhasil! Selamat Datang, " << ptr_visitor_aktif->nama << endl;
+                }
+                else
+                {
+                    cout << "Sign In Berhasil! Selamat datang, " << username_aktif << endl;
+                }
+                waitEnter();
             }
             else
             {
-                cout << "Username atau password salah!\n";
+                cout << RED << "[!]" << RESET << "Username atau password salah!\n";
                 waitEnter();
             }
         }
@@ -310,30 +349,35 @@ void mainmenu()
     {
         int pilihanAdmin;
 
-        while(true)
+        while (true)
         {
             clearScreen();
 
-            cout << "==================================================\n";
-            cout << "                  MENU ADMIN                      \n";
-            cout << "==================================================\n";
-            cout << "1. Sign In (Masuk)\n";
-            cout << "0. Kembali\n";
-            cout << "==================================================\n";
+            cout << CYAN << "+----------------------------------------+\n"
+                 << RESET;
+            cout << CYAN << "|" << RESET << YELLOW << BOLD << "               MENU ADMIN               " << RESET << CYAN << "|\n"
+                 << RESET;
+            cout << CYAN << "+----------------------------------------+\n"
+                 << RESET;
+            cout << CYAN << "|" << RESET << "  " << YELLOW << "[1]" << RESET << " Sign In (Masuk)                 " << CYAN << "|\n"
+                 << RESET;
+            cout << CYAN << "|" << RESET << "  " << RED << "[0]" << RESET << " Kembali                         " << CYAN << "|\n"
+                 << RESET;
+            cout << CYAN << "+----------------------------------------+\n"
+                 << RESET;
             cout << "Pilih opsi (0-1): ";
-
-            if(!validasiAngka(pilihanAdmin))
+            if (!validasiAngka(pilihanAdmin))
             {
                 cout << "--------------------------------------------------\n";
-                cout << "Input harus berupa angka!";
+                cout << RED << "[!]" << RESET << "Input harus berupa angka!";
                 waitEnter();
                 continue;
             }
 
-            if(pilihanAdmin < 0 || pilihanAdmin > 1)
+            if (pilihanAdmin < 0 || pilihanAdmin > 1)
             {
                 cout << "--------------------------------------------------\n";
-                cout << "Pilihan tidak valid!";
+                cout << RED << "[!]" << RESET << "Pilihan tidak valid!";
                 cin.ignore(1000, '\n');
                 waitEnter();
                 continue;
@@ -345,9 +389,12 @@ void mainmenu()
         {
             clearScreen();
             string tempadminUsername, tempadminPassword;
-            cout << "==================================================\n";
-            cout << "               SIGN IN ADMIN                    \n";
-            cout << "==================================================\n";
+            cout << CYAN << "+----------------------------------------+\n"
+                 << RESET;
+            cout << CYAN << "|" << RESET << YELLOW << BOLD << "              SIGN IN ADMIN             " << RESET << CYAN << "|\n"
+                 << RESET;
+            cout << CYAN << "+----------------------------------------+\n"
+                 << RESET;
             cout << "Masukkan Username : ";
             getline(cin >> ws, tempadminUsername);
             cout << "Masukkan Password : ";
@@ -371,7 +418,7 @@ void mainmenu()
             }
             else
             {
-                cout << "Username atau password salah!\n";
+                cout << RED << "[!]" << RESET << "Username atau password salah!\n";
                 system("pause");
             }
         }
@@ -387,27 +434,35 @@ void menuadmin()
     do
     {
         clearScreen();
-        cout << "==================================================\n";
-        cout << "                  MENU ADMIN                      \n";
-        cout << "==================================================\n";
-        cout << "1. Lihat Data Visitor\n";
-        cout << "2. Manajemen reservasi\n";
-        cout << "3. Laporan\n";
-        cout << "0. Keluar\n";
-        cout << "==================================================\n";
+        cout << CYAN << "+----------------------------------------+\n"
+             << RESET;
+        cout << CYAN << "|" << RESET << YELLOW << BOLD << "               MENU ADMIN               " << RESET << CYAN << "|\n"
+             << RESET;
+        cout << CYAN << "+----------------------------------------+\n"
+             << RESET;
+        cout << CYAN << "|" << RESET << "  " << YELLOW << "[1]" << RESET << " Lihat Data Visitor              " << CYAN << "|\n"
+             << RESET;
+        cout << CYAN << "|" << RESET << "  " << YELLOW << "[2]" << RESET << " Manajemen Reservasi             " << CYAN << "|\n"
+             << RESET;
+        cout << CYAN << "|" << RESET << "  " << YELLOW << "[3]" << RESET << " Laporan                         " << CYAN << "|\n"
+             << RESET;
+        cout << CYAN << "|" << RESET << "  " << RED << "[0]" << RESET << " Keluar                          " << CYAN << "|\n"
+             << RESET;
+        cout << CYAN << "+----------------------------------------+\n"
+             << RESET;
         cout << "Pilih opsi (0-3): ";
         if (!validasiAngka(pilihan))
         {
             pilihan = -1;
             cout << "--------------------------------------------------\n";
-            cout << "Input harus berupa angka!";
+            cout << RED << "[!] " << RESET << "Input harus berupa angka!";
             waitEnter();
             continue;
         }
-        if(pilihan < 0 || pilihan > 3)
+        if (pilihan < 0 || pilihan > 3)
         {
             cout << "--------------------------------------------------\n";
-            cout << "Pilihan tidak valid!";
+            cout << RED << "[!] " << RESET << "Pilihan tidak valid!";
             cin.ignore(1000, '\n');
             waitEnter();
             continue;
@@ -438,34 +493,45 @@ void menuVisitor()
     do
     {
         clearScreen();
-        cout << "==================================================\n";
-        cout << "                 MENU VISITOR                     \n";
-        cout << "==================================================\n";
-        if (ptr_visitor_aktif != nullptr) {
-        	cout << "Selamat datang, " << ptr_visitor_aktif -> nama << "("<< username_aktif << ")!\n";
-		}else 
-		{
-        	cout << "Selamat datang, " <<  username_aktif << "!\n";
-		}
-        cout << "--------------------------------------------------\n";
-        cout << "1. Buat Reservasi\n";
-        cout << "2. Lihat Reservasi Saya\n";
-        cout << "3. Batalkan Reservasi\n";
-        cout << "0. Keluar\n";
-        cout << "==================================================\n";
+        cout << CYAN;
+        cout << "+----------------------------------------+\n";
+        cout << "|" << YELLOW << BOLD << "         MENU VISITOR                   " << RESET << CYAN << "|\n";
+        cout << "+----------------------------------------+\n";
+        cout << RESET;
+        if (ptr_visitor_aktif != nullptr)
+        {
+            cout << CYAN << "|" << RESET << "Selamat datang, " << GREEN << ptr_visitor_aktif->nama << "(" << username_aktif << ")!\n";
+        }
+        else
+        {
+            cout << CYAN << "|" << RESET << "Selamat datang, " << username_aktif << "!\n"
+                 << CYAN << "|" << RESET;
+        }
+        cout << CYAN << "+----------------------------------------+\n"
+             << RESET;
+        cout << CYAN << RESET << "|  " << YELLOW << "[1]" << RESET << " Buat Reservasi                    " << CYAN << "|\n"
+             << RESET;
+        cout << CYAN << RESET << "|  " << YELLOW << "[2]" << RESET << " Lihat Reservasi Saya              " << CYAN << "|\n"
+             << RESET;
+        cout << CYAN << RESET << "|  " << YELLOW << "[3]" << RESET << " Batalkan Reservasi                " << CYAN << "|\n"
+             << RESET;
+        cout << CYAN << RESET << "|  " << RED << "[0]" << RESET << " Keluar                            " << CYAN << "|\n"
+             << RESET;
+        cout << CYAN << "+----------------------------------------+\n"
+             << RESET;
         cout << "Pilih opsi (0-3): ";
         if (!validasiAngka(pilihan))
         {
             pilihan = -1;
             cout << "--------------------------------------------------\n";
-            cout << "Input harus berupa angka!";
+            cout << RED << "[!] " << RESET << "Input harus berupa angka!";
             waitEnter();
             continue;
         }
-        if(pilihan < 0 || pilihan > 3)
+        if (pilihan < 0 || pilihan > 3)
         {
             cout << "--------------------------------------------------\n";
-            cout << "Pilihan tidak valid!";
+            cout << RED << "[!] " << RESET << "Pilihan tidak valid!";
             cin.ignore(1000, '\n');
             waitEnter();
             continue;
@@ -488,7 +554,7 @@ void menuVisitor()
             cout << "Keluar dari Menu Visitor...\n";
             break;
         default:
-            cout << "Pilihan tidak valid!";
+            cout << RED << "[!] " << RESET << "Pilihan tidak valid!";
             waitEnter();
             break;
         }
@@ -520,20 +586,21 @@ bool tanggalValid(const string &tanggalInput)
     return waktuReservasi >= waktuBesok;
 }
 
-void tampilDetailReservasi (const reservasi *res){
-	cout << "ID Reservasi : " << res -> idReservasi << endl;
-    cout << "Paket        : " << res -> namaPaket << endl;
-    cout << "Tanggal      : " << res -> tanggal << endl;
-    cout << "Harga Paket  : Rp" << res -> harga << endl;
-    cout << "Durasi       : " << res -> durasi << " jam\n";
-    if (res -> durasi > 2)
+void tampilDetailReservasi(const reservasi *res)
+{
+    cout << "ID Reservasi : " << res->idReservasi << endl;
+    cout << "Paket        : " << res->namaPaket << endl;
+    cout << "Tanggal      : " << res->tanggal << endl;
+    cout << "Harga Paket  : Rp" << res->harga << endl;
+    cout << "Durasi       : " << res->durasi << " jam\n";
+    if (res->durasi > 2)
     {
         cout << "Tambahan Jam : "
-             << (res -> durasi - 2)
+             << (res->durasi - 2)
              << " x Rp" << biayaTambahan << endl;
     }
-    cout << "Total Biaya  : Rp" << res -> totalBiaya << endl;
-    cout << "Status       : " << res -> status << endl;
+    cout << "Total Biaya  : Rp" << res->totalBiaya << endl;
+    cout << "Status       : " << res->status << endl;
     cout << "--------------------------------------------------\n";
 }
 
@@ -552,38 +619,41 @@ void buatReservasi()
     while (true)
     {
         clearScreen();
-        cout << "==================================================\n";
-        cout << "                BUAT RESERVASI                    \n";
-        cout << "==================================================\n";
+        cout << CYAN << "+----------------------------------------+\n"
+             << RESET;
+        cout << CYAN << "|" << RESET << YELLOW << BOLD << "             BUAT RESERVASI             " << RESET << CYAN << "|\n"
+             << RESET;
+        cout << CYAN << "+----------------------------------------+\n"
+             << RESET;
         cout << left
-            << setw(5) << "No"
-            << setw(15) << "Paket"
-            << setw(15) << "Harga Paket"
-            << endl;
-        cout << "--------------------------------------------------\n";
+             << setw(5) << "No"
+             << setw(15) << "Paket"
+             << setw(15) << "Harga Paket"
+             << endl;
+        cout << CYAN <<"--------------------------------------------------\n"<< RESET;
         for (int i = 0; i < 4; i++)
         {
             cout << left
-                << setw(5) << i + 1
-                << setw(15) << DAFTAR_PAKET[i]
-                << "Rp " << HARGA_PAKET[i]
-                << endl;
+                 << setw(5) << i + 1
+                 << setw(15) << DAFTAR_PAKET[i]
+                 << "Rp " << HARGA_PAKET[i]
+                 << endl;
         }
-        cout << "--------------------------------------------------\n";
+        cout << CYAN <<"--------------------------------------------------\n"<< RESET;
         cout << "* Harga sudah termasuk 2 jam sesi.\n";
         cout << "* Tambahan jam dikenakan Rp" << biayaTambahan << "/jam.\n";
         cout << "* Maksimal reservasi 8 jam.\n";
-        cout << "--------------------------------------------------\n";
+        cout << CYAN <<"--------------------------------------------------\n"<< RESET;
         cout << "Pilih Paket : ";
         if (!validasiAngka(pilihanPaket))
         {
-            cout << "Input harus berupa angka!";
+            cout << RED << "[!] " << RESET << "Input harus berupa angka!";
             waitEnter();
             return;
         }
         if (pilihanPaket < 1 || pilihanPaket > 4)
         {
-            cout << "Pilihan paket tidak valid!";
+            cout << RED << "[!] " << RESET << "Pilihan paket tidak valid!";
             cin.ignore(1000, '\n');
             waitEnter();
             return;
@@ -600,7 +670,7 @@ void buatReservasi()
         {
             break;
         }
-        cout << "Tanggal harus minimal H+1 dari hari ini!\n";
+        cout << RED << "[!] " << RESET << "Tanggal harus minimal H+1 dari hari ini!\n";
     }
     do
     {
@@ -608,7 +678,7 @@ void buatReservasi()
         cin >> reservasi_baru.durasi;
         if (reservasi_baru.durasi < 2 || reservasi_baru.durasi > 8)
         {
-            cout << "Durasi harus antara 2 sampai 8 jam!\n";
+            cout << RED << "[!] " << RESET << "Durasi harus antara 2 sampai 8 jam!\n";
         }
     } while (reservasi_baru.durasi < 2 || reservasi_baru.durasi > 8);
     if (reservasi_baru.durasi <= 2)
@@ -639,26 +709,29 @@ void buatReservasi()
     {
         cout << "Gagal menyimpan reservasi ke file!\n";
     }
-    cout << "--------------------------------------------------\n";
-    cout << "Reservasi berhasil dibuat!\n";
-    cout << "--------------------------------------------------\n";
-    tampilDetailReservasi (&reservasi_baru);
+    cout << CYAN << "+----------------------------------------+\n"
+         << RESET;
+    cout << CYAN << "|" << RESET << GREEN << BOLD << "           RESERVASI BERHASIL            " << RESET << CYAN << "|\n"
+         << RESET;
+    cout << CYAN << "+----------------------------------------+\n"
+         << RESET;
+    tampilDetailReservasi(&reservasi_baru);
     cin.ignore(1000, '\n');
     waitEnter();
-//    cout << "ID Reservasi : " << reservasi_baru.idReservasi << endl;
-//    cout << "Paket        : " << reservasi_baru.namaPaket << endl;
-//    cout << "Tanggal      : " << reservasi_baru.tanggal << endl;
-//    cout << "Harga Paket  : Rp" << reservasi_baru.harga << endl;
-//    cout << "Durasi       : " << reservasi_baru.durasi << " jam\n";
-//    if (reservasi_baru.durasi > 2)
-//    {
-//        cout << "Tambahan Jam : "
-//             << (reservasi_baru.durasi - 2)
-//             << " x Rp" << biayaTambahan << endl;
-//    }
-//    cout << "Total Biaya  : Rp" << reservasi_baru.totalBiaya << endl;
-//    cout << "Status       : " << reservasi_baru.status << endl;
-//    cout << "--------------------------------------------------\n";
+    //    cout << "ID Reservasi : " << reservasi_baru.idReservasi << endl;
+    //    cout << "Paket        : " << reservasi_baru.namaPaket << endl;
+    //    cout << "Tanggal      : " << reservasi_baru.tanggal << endl;
+    //    cout << "Harga Paket  : Rp" << reservasi_baru.harga << endl;
+    //    cout << "Durasi       : " << reservasi_baru.durasi << " jam\n";
+    //    if (reservasi_baru.durasi > 2)
+    //    {
+    //        cout << "Tambahan Jam : "
+    //             << (reservasi_baru.durasi - 2)
+    //             << " x Rp" << biayaTambahan << endl;
+    //    }
+    //    cout << "Total Biaya  : Rp" << reservasi_baru.totalBiaya << endl;
+    //    cout << "Status       : " << reservasi_baru.status << endl;
+    //    cout << "--------------------------------------------------\n";
 }
 
 void loadVisitor()
@@ -723,9 +796,12 @@ void loadReservasi()
 void lihatReservasiSaya()
 {
     clearScreen();
-    cout << "==============================================================\n";
-    cout << "                      RESERVASI SAYA                          \n";
-    cout << "==============================================================\n";
+    cout << CYAN << "+----------------------------------------+\n"
+         << RESET;
+    cout << CYAN << "|" << RESET << YELLOW << BOLD << "             RESERVASI SAYA             " << RESET << CYAN << "|\n"
+         << RESET;
+    cout << CYAN << "+----------------------------------------+\n"
+         << RESET;
     bool ditemukan = false;
     cout << left
          << setw(5) << "ID"
@@ -735,7 +811,7 @@ void lihatReservasiSaya()
          << setw(12) << "Total"
          << setw(10) << "Status"
          << endl;
-    cout << "--------------------------------------------------------------\n";
+    cout <<CYAN<< "--------------------------------------------------------------\n" << RESET;
     for (int i = 0; i < jumlahreservasi; i++)
     {
         if (reservasiList[i].usernameVisitor == username_aktif)
@@ -749,13 +825,13 @@ void lihatReservasiSaya()
                  << setw(12) << ("Rp" + to_string(reservasiList[i].totalBiaya))
                  << setw(10) << reservasiList[i].status
                  << endl;
-            cout << "--------------------------------------------------------------\n";
+            cout <<CYAN<< "--------------------------------------------------------------\n" << RESET;
         }
     }
     if (!ditemukan)
     {
         cout << "Belum ada reservasi.\n";
-        cout << "--------------------------------------------------------------\n";
+        cout <<CYAN<< "--------------------------------------------------------------\n" << RESET;
     }
     cin.clear();
     cin.ignore(1000, '\n');
@@ -764,9 +840,12 @@ void lihatReservasiSaya()
 void batalkanReservasi()
 {
     clearScreen();
-    cout << "==============================================================\n";
-    cout << "                      BATALKAN RESERVASI                      \n";
-    cout << "==============================================================\n";
+    cout << CYAN << "+----------------------------------------+\n"
+         << RESET;
+    cout << CYAN << "|" << RESET << RED << BOLD << "           BATALKAN RESERVASI           " << RESET << CYAN << "|\n"
+         << RESET;
+    cout << CYAN << "+----------------------------------------+\n"
+         << RESET;
 
     if (jumlahreservasi == 0)
     {
@@ -823,9 +902,12 @@ void batalkanReservasi()
 void tampilkanSemuaVisitor()
 {
     clearScreen();
-    cout << "==============================================================\n";
-    cout << "                      DAFTAR PELANGGAN                        \n";
-    cout << "==============================================================\n";
+    cout << CYAN << "+----------------------------------------+\n"
+         << RESET;
+    cout << CYAN << "|" << RESET << BLUE << BOLD << "            DAFTAR PELANGGAN            " << RESET << CYAN << "|\n"
+         << RESET;
+    cout << CYAN << "+----------------------------------------+\n"
+         << RESET;
     if (jumlahvisitor == 0)
     {
         cout << "Belum ada pelanggan yang terdaftar\n";
@@ -837,7 +919,8 @@ void tampilkanSemuaVisitor()
              << setw(15) << "No.Telepon"
              << setw(25) << "Email"
              << endl;
-        cout << "--------------------------------------------------------------\n";
+        cout << CYAN << "--------------------------------------------------------------\n"
+             << RESET;
         for (int i = 0; i < jumlahvisitor; i++)
         {
             cout << left
@@ -848,7 +931,8 @@ void tampilkanSemuaVisitor()
                  << endl;
         }
     }
-    cout << "==============================================================\n";
+    cout << CYAN << "==============================================================\n"
+         << RESET;
     cin.clear();
     cin.ignore(1000, '\n');
     waitEnter();
@@ -856,9 +940,12 @@ void tampilkanSemuaVisitor()
 void cariVisitor()
 {
     clearScreen();
-    cout << "==============================================================\n";
-    cout << "                         CARI PELANGGAN                       \n";
-    cout << "==============================================================\n";
+    cout << CYAN << "+----------------------------------------+\n"
+         << RESET;
+    cout << CYAN << "|" << RESET << YELLOW << BOLD << "            CARI PELANGGAN              " << RESET << CYAN << "|\n"
+         << RESET;
+    cout << CYAN << "+----------------------------------------+\n"
+         << RESET;
     if (jumlahvisitor == 0)
     {
         cout << "Belum ada data pelanggan yang ditemukan\n";
@@ -868,7 +955,8 @@ void cariVisitor()
     string keyword;
     cout << "Masukkan Username atau Nama Pelanggan: ";
     getline(cin >> ws, keyword);
-    cout << "--------------------------------------------------------------\n";
+    cout << CYAN << "--------------------------------------------------------------\n"
+         << RESET;
     bool ditemukan = false;
     for (int i = 0; i < jumlahvisitor; i++)
     {
@@ -879,23 +967,28 @@ void cariVisitor()
             cout << "Nama Lengkap : " << visit[i].nama << endl;
             cout << "No. Telepon  : " << visit[i].noTelp << endl;
             cout << "Email        : " << visit[i].email << endl;
-            cout << "--------------------------------------------------\n";
+            cout << CYAN << "--------------------------------------------------\n"
+                 << RESET;
             ditemukan = true;
         }
     }
     if (!ditemukan)
     {
         cout << "Pelanggan dengan kata kunci '" << keyword << "' tidak ditemukan.\n";
-        cout << "--------------------------------------------------\n";
+        cout << CYAN << "--------------------------------------------------\n"
+             << RESET;
     }
     waitEnter();
 }
 void tambahVisitor()
 {
     clearScreen();
-    cout << "==============================================================\n";
-    cout << "                      TAMBAH PELANGGAN                       \n";
-    cout << "==============================================================\n";
+    cout << CYAN << "==============================================================\n"
+         << RESET;
+    cout << CYAN << "                      TAMBAH PELANGGAN                       \n"
+         << RESET;
+    cout << CYAN << "==============================================================\n"
+         << RESET;
     if (jumlahvisitor >= maks_visitor)
     {
         cout << "Kapasitas pelanggan penuh! Tidak bisa menambah pelanggan baru.\n";
@@ -951,32 +1044,43 @@ void kelolapelanggan()
     do
     {
         clearScreen();
-        cout << "==============================================================\n";
-        cout << "                      KELOLA PELANGGAN                       \n";
-        cout << "==============================================================\n";
-        cout << "1. Tampilkan Semua Pelanggan\n";
-        cout << "2. Cari Pelanggan\n";
-        cout << "3. Tambah Pelanggan\n";
-        cout << "0. Kembali\n";
-        cout << "==============================================================\n";
+        cout << CYAN << "+----------------------------------------+\n"
+             << RESET;
+        cout << CYAN << "|" << RESET << YELLOW << BOLD << "           KELOLA PELANGGAN             " << RESET << CYAN << "|\n"
+             << RESET;
+        cout << CYAN << "+----------------------------------------+\n"
+             << RESET;
+        cout << CYAN << "|" << RESET << "  " << YELLOW << "[1]" << RESET << " Tampilkan Semua Pelanggan       " << CYAN << "|\n"
+             << RESET;
+        cout << CYAN << "|" << RESET << "  " << YELLOW << "[2]" << RESET << " Cari Pelanggan                  " << CYAN << "|\n"
+             << RESET;
+        cout << CYAN << "|" << RESET << "  " << YELLOW << "[3]" << RESET << " Tambah Pelanggan                " << CYAN << "|\n"
+             << RESET;
+        cout << CYAN << "|" << RESET << "  " << RED << "[0]" << RESET << " Kembali                         " << CYAN << "|\n"
+             << RESET;
+        cout << CYAN << "+----------------------------------------+\n"
+             << RESET;
         cout << "Pilih opsi (0-3): ";
         if (!validasiAngka(pilihan))
         {
             pilihan = -1;
-            cout << "--------------------------------------------------\n";
+            cout << CYAN << "--------------------------------------------------\n"
+                 << RESET;
             cout << "Input harus berupa angka!";
             waitEnter();
             continue;
         }
-        if(pilihan < 0 || pilihan > 3)
+        if (pilihan < 0 || pilihan > 3)
         {
-            cout << "--------------------------------------------------\n";
+            cout << CYAN << "--------------------------------------------------\n"
+                 << RESET;
             cout << "Pilihan tidak valid!";
             cin.ignore(1000, '\n');
             waitEnter();
             continue;
         }
-        cout << "--------------------------------------------------------------\n";
+        cout << CYAN << "--------------------------------------------------------------\n"
+             << RESET;
         switch (pilihan)
         {
         case 1:
@@ -1000,9 +1104,12 @@ void kelolapelanggan()
 void laporanJumlahReservasi()
 {
     clearScreen();
-    cout << "=======================================================================\n";
-    cout << "                         LAPORAN JUMLAH RESERVASI                      \n";
-    cout << "=======================================================================\n";
+    cout << CYAN << "=======================================================================\n"
+         << RESET;
+    cout << CYAN << "                         LAPORAN JUMLAH RESERVASI                      \n"
+         << RESET;
+    cout << CYAN << "=======================================================================\n"
+         << RESET;
 
     if (jumlahreservasi == 0)
     {
@@ -1060,14 +1167,18 @@ void laporanJumlahReservasi()
 void laporanTotalPendapatan()
 {
     clearScreen();
-    cout << "=======================================================================\n";
-    cout << "                       LAPORAN TOTAL PENDAPATAN                        \n";
-    cout << "=======================================================================\n";
+    cout << CYAN << "=======================================================================\n"
+         << RESET;
+    cout << CYAN << "                       LAPORAN TOTAL PENDAPATAN                        \n"
+         << RESET;
+    cout << CYAN << "=======================================================================\n"
+         << RESET;
 
     if (jumlahreservasi == 0)
     {
         cout << "Belum ada data reservasi.\n";
-        cout << "================================================================\n";
+        cout << CYAN << "================================================================\n"
+             << RESET;
         waitEnter();
         return;
     }
@@ -1120,10 +1231,14 @@ void laporanTotalPendapatan()
              << endl;
     }
 
-    cout << "==============================================================\n";
-    cout << "  TOTAL PENDAPATAN         : Rp" << pendapatanTotal << "\n";
-    cout << "  (tidak termasuk reservasi yang dibatalkan)\n";
-    cout << "==============================================================\n";
+    cout << CYAN << "==============================================================\n"
+         << RESET;
+    cout << CYAN << "  TOTAL PENDAPATAN         : Rp" << pendapatanTotal << "\n"
+         << RESET;
+    cout << CYAN << "  (tidak termasuk reservasi yang dibatalkan)\n"
+         << RESET;
+    cout << CYAN << "==============================================================\n"
+         << RESET;
     cin.ignore(1000, '\n');
     waitEnter();
 }
@@ -1134,16 +1249,20 @@ void menuLaporan()
     do
     {
         clearScreen();
-        cout << "==================================================\n";
-        cout << "                   MENU LAPORAN                   \n";
-        cout << "==================================================\n";
-        cout << "1. Laporan Jumlah Reservasi\n";
-        cout << "2. Laporan Total Pendapatan\n";
-        cout << "0. Kembali\n";
+        cout << CYAN << "==================================================\n"
+             << RESET;
+        cout << CYAN << "                   MENU LAPORAN                   \n"
+             << RESET;
+        cout << CYAN << "==================================================\n"
+             << RESET;
+        cout << YELLOW<< "[1]" << RESET << " Laporan Jumlah Reservasi\n";
+        cout << YELLOW<< "[2]" << RESET << " Laporan Total Pendapatan\n";
+        cout << RED<< "[0]" << RESET << " Kembali\n";
         cout << "==================================================\n";
         cout << "Pilih opsi (0-2): ";
         cin >> pilihan;
-        cout << "--------------------------------------------------\n";
+        cout << CYAN << "--------------------------------------------------\n"
+             << RESET;
         system("cls");
         switch (pilihan)
         {
@@ -1169,16 +1288,24 @@ void manajemenReservasi()
     do
     {
         clearScreen();
-        cout << "==================================================\n";
-        cout << "              MANAJEMEN RESERVASI                 \n";
-        cout << "==================================================\n";
-        cout << "1. Tampilkan Semua Reservasi\n";
-        cout << "2. Konfirmasi Reservasi\n";
-        cout << "3. Batalkan Reservasi\n";
-        cout << "0. Kembali\n";
-        cout << "==================================================\n";
+        cout << CYAN << "+----------------------------------------+\n"
+             << RESET;
+        cout << CYAN << "|" << RESET << YELLOW << BOLD << "          MANAJEMEN RESERVASI           " << RESET << CYAN << "|\n"
+             << RESET;
+        cout << CYAN << "+----------------------------------------+\n"
+             << RESET;
+        cout << CYAN << "|" << RESET << "  " << YELLOW << "[1]" << RESET << " Tampilkan Semua Reservasi       " << CYAN << "|\n"
+             << RESET;
+        cout << CYAN << "|" << RESET << "  " << YELLOW << "[2]" << RESET << " Konfirmasi Reservasi            " << CYAN << "|\n"
+             << RESET;
+        cout << CYAN << "|" << RESET << "  " << YELLOW << "[3]" << RESET << " Batalkan Reservasi              " << CYAN << "|\n"
+             << RESET;
+        cout << CYAN << "|" << RESET << "  " << RED << "[0]" << RESET << " Kembali                         " << CYAN << "|\n"
+             << RESET;
+        cout << CYAN << "+----------------------------------------+\n"
+             << RESET;
         cout << "Pilih opsi (0-3): ";
-                if (!validasiAngka(pilihan))
+        if (!validasiAngka(pilihan))
         {
             pilihan = -1;
             cout << "--------------------------------------------------\n";
@@ -1186,7 +1313,7 @@ void manajemenReservasi()
             waitEnter();
             continue;
         }
-        if(pilihan < 0 || pilihan > 3)
+        if (pilihan < 0 || pilihan > 3)
         {
             cin.clear();
             cin.ignore(1000, '\n');
@@ -1219,9 +1346,12 @@ void manajemenReservasi()
 void tampilSemuaReservasi()
 {
     clearScreen();
-    cout << "==============================================================\n";
-    cout << "                      SEMUA RESERVASI                         \n";
-    cout << "==============================================================\n";
+    cout << CYAN << "+----------------------------------------+\n"
+         << RESET;
+    cout << CYAN << "|" << RESET << YELLOW << BOLD << "             SEMUA RESERVASI            " << RESET << CYAN << "|\n"
+         << RESET;
+    cout << CYAN << "+----------------------------------------+\n"
+         << RESET;
     if (jumlahreservasi == 0)
     {
         cout << "Belum ada data reservasi.\n";
@@ -1260,9 +1390,12 @@ void tampilSemuaReservasi()
 void konfirmasiReservasi()
 {
     clearScreen();
-    cout << "==============================================================\n";
-    cout << "                  KONFIRMASI RESERVASI                        \n";
-    cout << "==============================================================\n";
+    cout << CYAN << "+----------------------------------------+\n"
+         << RESET;
+    cout << CYAN << "|" << RESET << YELLOW << BOLD << "              KONFIRMASI RESERVASI            " << RESET << CYAN << "|\n"
+         << RESET;
+    cout << CYAN << "+----------------------------------------+\n"
+         << RESET;
 
     if (jumlahreservasi == 0)
     {
@@ -1363,9 +1496,12 @@ void konfirmasiReservasi()
 void batalkanReservasiAdmin()
 {
     clearScreen();
-    cout << "==============================================================\n";
-    cout << "                  BATALKAN RESERVASI ADMIN                    \n";
-    cout << "==============================================================\n";
+    cout << CYAN << "+----------------------------------------+\n"
+         << RESET;
+    cout << CYAN << "|" << RESET << YELLOW << BOLD << "            BATALKAN RESERVASI ADMIN          " << RESET << CYAN << "|\n"
+         << RESET;
+    cout << CYAN << "+" << RESET << YELLOW << BOLD << "----------------------------------------" << RESET << CYAN << "+\n"
+         << RESET;
 
     if (jumlahreservasi == 0)
     {
