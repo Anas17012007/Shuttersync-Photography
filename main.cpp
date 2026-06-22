@@ -30,7 +30,7 @@ void menuLaporan();
 void tampilSemuaReservasi();
 void konfirmasiReservasi();
 void batalkanReservasiAdmin();
-void manajemenReservasi();
+ void manajemenReservasi();
 
 struct admin
 {
@@ -233,8 +233,7 @@ void mainmenu()
             cout << "Masukkan Nama Lengkap  : ";
             getline(cin >> ws, visit[jumlahvisitor].nama);
             cout << "Masukkan No. Telepon   : ";
-            getline(cin >> ws, visit[jumlahvisitor].noTelp);
-            cout << "Masukkan Email         : ";
+            getline(cin >> ws, visit[jumlahvisitor].noTelp);        cout << "Masukkan Email         : ";
             getline(cin >> ws, visit[jumlahvisitor].email);
             cout << "--------------------------------------------------\n";
 
@@ -676,10 +675,19 @@ void buatReservasi()
     {
         cout << "Durasi (2 - 8 jam) : ";
         cin >> reservasi_baru.durasi;
-        if (reservasi_baru.durasi < 2 || reservasi_baru.durasi > 8)
+        if (cin.fail()){
+        	cout << RED << "[!] " << RESET <<  "Durasi harus berupa angka\n";
+        	cin.clear();
+        	cin.ignore(1000, '\n');
+        	continue;
+		}
+         if (reservasi_baru.durasi < 2 || reservasi_baru.durasi > 8)
         {
-            cout << RED << "[!] " << RESET << "Durasi harus antara 2 sampai 8 jam!\n";
+            cout << RED << "[!] " << RESET << "Durasi harus antara 2 sampai 8 jam dan tidak boleh angka!\n";
+            continue;
         }
+                
+        break;
     } while (reservasi_baru.durasi < 2 || reservasi_baru.durasi > 8);
     if (reservasi_baru.durasi <= 2)
     {
@@ -888,6 +896,7 @@ void batalkanReservasi()
                 fileReservasi.close();
                 cout << "Sukses! Reservasi dengan ID " << idCari << " telah dibatalkan.\n";
             }
+            
             break;
         }
     }
@@ -896,6 +905,7 @@ void batalkanReservasi()
     {
         cout << "ID Reservasi tidak ditemukan atau bukan milik akun Anda.\n";
     }
+    cin.ignore(1000,'\n');
     waitEnter();
 }
 
