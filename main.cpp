@@ -313,7 +313,6 @@ void mainmenu()
             if (berhasil)
             {
                 username_aktif = tempvisitorUsername;
-
                 for (int i = 0; i < jumlahvisitor; i++)
                 {
                     if (visit[i].username == username_aktif)
@@ -322,7 +321,6 @@ void mainmenu()
                         break;
                     }
                 }
-
                 if (ptr_visitor_aktif != nullptr)
                 {
                     cout << "Sign In Berhasil! Selamat Datang, " << ptr_visitor_aktif->nama << endl;
@@ -453,7 +451,6 @@ void menuadmin()
         cout << "Pilih opsi (0-3): ";
         if (!validasiAngka(pilihan))
         {
-            pilihan = -1;
             cout << "--------------------------------------------------\n";
             cout << RED << "[!] " << RESET << "Input harus berupa angka!";
             waitEnter();
@@ -482,9 +479,11 @@ void menuadmin()
         case 0:
             admin_aktif = false;
             cout << "Keluar dari Menu Admin...\n";
-            break;
+            cin.ignore(1000, '\n');
+            waitEnter();
+            return;
         }
-    } while (pilihan != 0);
+    } while (true);
 }
 
 void menuVisitor()
@@ -522,7 +521,6 @@ void menuVisitor()
         cout << "Pilih opsi (0-3): ";
         if (!validasiAngka(pilihan))
         {
-            pilihan = -1;
             cout << "--------------------------------------------------\n";
             cout << RED << "[!] " << RESET << "Input harus berupa angka!";
             waitEnter();
@@ -552,13 +550,15 @@ void menuVisitor()
             username_aktif = "";
             ptr_visitor_aktif = nullptr;
             cout << "Keluar dari Menu Visitor...\n";
-            break;
+            cin.ignore(1000, '\n');
+            waitEnter();
+            return;
         default:
             cout << RED << "[!] " << RESET << "Pilihan tidak valid!";
             waitEnter();
             break;
         }
-    } while (pilihan != 0);
+    } while (true);
 }
 bool tanggalValid(const string &tanggalInput)
 {
@@ -687,8 +687,8 @@ void buatReservasi()
         }
                 
         break;
-    } while (reservasi_baru.durasi < 2 || reservasi_baru.durasi > 8);
-    if (reservasi_baru.durasi <= 2)
+    } while (true);
+    if (reservasi_baru.durasi == 2)
     {
         reservasi_baru.totalBiaya = reservasi_baru.harga;
     }
@@ -715,6 +715,9 @@ void buatReservasi()
     else
     {
         cout << "Gagal menyimpan reservasi ke file!\n";
+        cin.ignore(1000, '\n');
+        waitEnter();
+        return;
     }
     cout << CYAN << "+----------------------------------------+\n"
          << RESET;
@@ -905,8 +908,6 @@ void batalkanReservasi()
                 }
                 fileReservasi.close();
                 cout << "Sukses! Reservasi dengan ID " << idCari << " telah dibatalkan.";
-                cin.ignore(1000,'\n');
-                waitEnter();
             }
             
             break;
@@ -1059,6 +1060,7 @@ void tambahVisitor()
         else
         {
             cout << "Gagal membuka file!\n";
+            cin.ignore();
             waitEnter();
         }
     }
@@ -1088,7 +1090,6 @@ void kelolapelanggan()
         cout << "Pilih opsi (0-3): ";
         if (!validasiAngka(pilihan))
         {
-            pilihan = -1;
             cout << CYAN << "--------------------------------------------------\n"
                  << RESET;
             cout << "Input harus berupa angka!";
@@ -1123,7 +1124,7 @@ void kelolapelanggan()
             cout << "Pilihan tidak valid!\n";
             waitEnter();
         }
-    } while (pilihan != 0);
+    } while (true);
 }
 
 void laporanJumlahReservasi()
@@ -1332,7 +1333,6 @@ void manajemenReservasi()
         cout << "Pilih opsi (0-3): ";
         if (!validasiAngka(pilihan))
         {
-            pilihan = -1;
             cout << "--------------------------------------------------\n";
             cout << "Input harus berupa angka!";
             waitEnter();
@@ -1361,12 +1361,12 @@ void manajemenReservasi()
             break;
         case 0:
             cout << "Kembali ke Menu Admin...\n";
-            break;
+            return;
         default:
             cout << "Pilihan tidak valid!\n";
             waitEnter();
         }
-    } while (pilihan != 0);
+    } while (true);
 }
 void tampilSemuaReservasi()
 {
@@ -1576,6 +1576,7 @@ void batalkanReservasiAdmin()
     if (!validasiAngka(idCari))
     {
         cout << "Input harus berupa angka!";
+        cin.ignore(1000,'\n');
         waitEnter();
         return;
     }
