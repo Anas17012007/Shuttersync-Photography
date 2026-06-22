@@ -30,7 +30,7 @@ void menuLaporan();
 void tampilSemuaReservasi();
 void konfirmasiReservasi();
 void batalkanReservasiAdmin();
- void manajemenReservasi();
+void manajemenReservasi();
 
 struct admin
 {
@@ -233,7 +233,8 @@ void mainmenu()
             cout << "Masukkan Nama Lengkap  : ";
             getline(cin >> ws, visit[jumlahvisitor].nama);
             cout << "Masukkan No. Telepon   : ";
-            getline(cin >> ws, visit[jumlahvisitor].noTelp);        cout << "Masukkan Email         : ";
+            getline(cin >> ws, visit[jumlahvisitor].noTelp);        
+            cout << "Masukkan Email         : ";
             getline(cin >> ws, visit[jumlahvisitor].email);
             cout << "--------------------------------------------------\n";
 
@@ -413,12 +414,12 @@ void mainmenu()
             {
                 admin_aktif = true;
                 cout << "Sign In Berhasil! Selamat datang, " << tempadminUsername << endl;
-                system("pause");
+                waitEnter();
             }
             else
             {
                 cout << RED << "[!]" << RESET << "Username atau password salah!\n";
-                system("pause");
+                waitEnter();
             }
         }
         else if (pilihanAdmin == 0)
@@ -674,16 +675,14 @@ void buatReservasi()
     do
     {
         cout << "Durasi (2 - 8 jam) : ";
-        cin >> reservasi_baru.durasi;
-        if (cin.fail()){
-        	cout << RED << "[!] " << RESET <<  "Durasi harus berupa angka\n";
-        	cin.clear();
-        	cin.ignore(1000, '\n');
-        	continue;
-		}
+        if (!validasiAngka(reservasi_baru.durasi))
+        {
+            cout << "Input harus berupa angka!\n";
+            continue;
+        }
          if (reservasi_baru.durasi < 2 || reservasi_baru.durasi > 8)
         {
-            cout << RED << "[!] " << RESET << "Durasi harus antara 2 sampai 8 jam dan tidak boleh angka!\n";
+            cout << RED << "[!] " << RESET << "Durasi harus antara 2 sampai 8 jam\n";
             continue;
         }
                 
@@ -857,14 +856,22 @@ void batalkanReservasi()
 
     if (jumlahreservasi == 0)
     {
-        cout << "Belum ada data reservasi di sistem.\n";
+        cout << "Belum ada data reservasi di sistem.";
         waitEnter();
         return;
     }
 
     int idCari;
-    cout << "Masukkan ID Reservasi yang ingin dibatalkan: ";
-    cin >> idCari;
+    while(true){
+        cout << "Masukkan ID Reservasi yang ingin dibatalkan: ";
+        if (!validasiAngka(idCari))
+        {
+            cout << "Input harus berupa angka!";
+            waitEnter();
+            return;
+        }
+        break;
+    }
 
     bool ditemukan = false;
     for (int i = 0; i < jumlahreservasi; i++)
@@ -875,7 +882,10 @@ void batalkanReservasi()
 
             if (reservasiList[i].status != "Menunggu")
             {
-                cout << "Gagal! Reservasi tidak bisa dibatalkan karena statusnya sudah '" << reservasiList[i].status << "'.\n";
+                cout << "Gagal! Reservasi tidak bisa dibatalkan karena statusnya sudah '" << reservasiList[i].status << "'.";
+                cin.ignore(1000,'\n');
+                waitEnter();
+                return;
             }
             else
             {
@@ -894,7 +904,9 @@ void batalkanReservasi()
                                   << reservasiList[j].status << endl;
                 }
                 fileReservasi.close();
-                cout << "Sukses! Reservasi dengan ID " << idCari << " telah dibatalkan.\n";
+                cout << "Sukses! Reservasi dengan ID " << idCari << " telah dibatalkan.";
+                cin.ignore(1000,'\n');
+                waitEnter();
             }
             
             break;
@@ -965,7 +977,7 @@ void cariVisitor()
     string keyword;
     cout << "Masukkan Username atau Nama Pelanggan: ";
     getline(cin >> ws, keyword);
-    cout << CYAN << "--------------------------------------------------------------\n"
+    cout << CYAN << "--------------------------------------------------\n"
          << RESET;
     bool ditemukan = false;
     for (int i = 0; i < jumlahvisitor; i++)
@@ -1022,10 +1034,12 @@ void tambahVisitor()
         visit[jumlahvisitor].noTelp.empty())
     {
         cout << "Semua field tidak boleh kosong!\n";
+        waitEnter();
     }
     else if (cekUsernameDuplikat(visit[jumlahvisitor].username))
     {
         cout << "Username sudah digunakan!\n";
+        waitEnter();
     }
     else
     {
@@ -1045,6 +1059,7 @@ void tambahVisitor()
         else
         {
             cout << "Gagal membuka file!\n";
+            waitEnter();
         }
     }
 }
@@ -1273,7 +1288,7 @@ void menuLaporan()
         cin >> pilihan;
         cout << CYAN << "--------------------------------------------------\n"
              << RESET;
-        system("cls");
+        clearScreen();
         switch (pilihan)
         {
         case 1:
@@ -1410,6 +1425,7 @@ void konfirmasiReservasi()
     if (jumlahreservasi == 0)
     {
         cout << "Belum ada data reservasi.\n";
+        cin.ignore(1000,'\n');
         waitEnter();
         return;
     }
@@ -1441,6 +1457,7 @@ void konfirmasiReservasi()
     if (!Menunggu)
     {
         cout << "Tidak ada reservasi yang menunggu konfirmasi.\n";
+        cin.ignore(1000,'\n');
         waitEnter();
         return;
     }
@@ -1448,8 +1465,12 @@ void konfirmasiReservasi()
     cout << "-----------------------------------------------------------------------\n";
     int idCari;
     cout << "Masukkan ID Reservasi yang ingin dikonfirmasi: ";
-    cin >> idCari;
-
+    if (!validasiAngka(idCari))
+    {
+        cout << "Input harus berupa angka!";
+        waitEnter();
+        return;
+    }
     bool ditemukan = false;
     for (int i = 0; i < jumlahreservasi; i++)
     {
@@ -1459,6 +1480,8 @@ void konfirmasiReservasi()
             if (reservasiList[i].status != "Menunggu")
             {
                 cout << "Gagal! Status reservasi sudah '" << reservasiList[i].status << "'.\n";
+                cin.ignore(1000,'\n');
+                waitEnter();
             }
             else
             {
@@ -1487,21 +1510,27 @@ void konfirmasiReservasi()
                 }
                 else if (konfirmasi == 'n' || konfirmasi == 'N')
                 {
-                    cout << "Konfirmasi dibatalkan.\n";
+                    cout << "Konfirmasi dibatalkan.";
+                    cin.ignore(1000,'\n');
+                    waitEnter();
                 }
                 else
                 {
-                    cout << "Input tidak valid, konfirmasi dibatalkan.\n";
+                    cout << "Input tidak valid, konfirmasi dibatalkan.";
+                    cin.ignore(1000,'\n');
+                    waitEnter();
                 }
             }
             break;
         }
     }
 
-    if (!ditemukan)
-        cout << "ID Reservasi tidak ditemukan.\n";
+    if (!ditemukan){
+        cout << "ID Reservasi tidak ditemukan.";
+        cin.ignore(1000,'\n');
+        waitEnter();
+    }
 
-    waitEnter();
 }
 void batalkanReservasiAdmin()
 {
@@ -1516,6 +1545,7 @@ void batalkanReservasiAdmin()
     if (jumlahreservasi == 0)
     {
         cout << "Belum ada data reservasi.\n";
+        cin.ignore(1000,'\n');
         waitEnter();
         return;
     }
@@ -1543,7 +1573,12 @@ void batalkanReservasiAdmin()
     cout << "-----------------------------------------------------------------------\n";
     int idCari;
     cout << "Masukkan ID Reservasi yang ingin dibatalkan: ";
-    cin >> idCari;
+    if (!validasiAngka(idCari))
+    {
+        cout << "Input harus berupa angka!";
+        waitEnter();
+        return;
+    }
 
     bool ditemukan = false;
     for (int i = 0; i < jumlahreservasi; i++)
@@ -1553,7 +1588,9 @@ void batalkanReservasiAdmin()
             ditemukan = true;
             if (reservasiList[i].status == "Dibatalkan")
             {
-                cout << "Reservasi ini sudah dibatalkan sebelumnya.\n";
+                cout << "Reservasi ini sudah dibatalkan sebelumnya.";
+                cin.ignore(1000,'\n');
+                waitEnter();
             }
             else
             {
@@ -1582,21 +1619,26 @@ void batalkanReservasiAdmin()
                 }
                 else if (konfirmasi == 'n' || konfirmasi == 'N')
                 {
-                    cout << "Pembatalan dibatalkan.\n";
+                    cout << "Pembatalan dibatalkan.";
+                    cin.ignore(1000,'\n');
+                    waitEnter();
                 }
                 else
                 {
-                    cout << "Input tidak valid, pembatalan dibatalkan.\n";
+                    cout << "Input tidak valid, pembatalan dibatalkan.";
+                    cin.ignore(1000,'\n');
+                    waitEnter();
                 }
             }
             break;
         }
     }
 
-    if (!ditemukan)
-        cout << "ID Reservasi tidak ditemukan.\n";
-
-    waitEnter();
+    if (!ditemukan){
+        cout << "ID Reservasi tidak ditemukan.";
+        cin.ignore(1000,'\n');
+        waitEnter();
+    }
 }
 
 int main()

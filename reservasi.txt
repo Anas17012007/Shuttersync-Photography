@@ -4,3 +4,5 @@
 4 | jihan | Produk | 25/12/2026 | 2 | 400000 | 400000 | Dibatalkan
 5 | jihan | Keluarga | 21/11/2026 | 3 | 750000 | 850000 | Dibatalkan
 6 | jihan | Wisuda | 01/01/2027 | 1 | 700000 | 700000 | Menunggu
+7 | jihan | Wisuda | 01/10/2027 | 8 | 700000 | 1300000 | Menunggu
+8 | jiji | Wisuda | 10/10/2027 | 2 | 700000 | 700000 | Dikonfirmasi
