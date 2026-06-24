@@ -80,7 +80,7 @@ admin daftarAdmin[6] = {
     {"Tiara", "Tiara123"},
     {"Putri", "Putri123"},
     {"Jihan", "Jihan123"}};
-string Lower(string nama)
+string UppercaseToLower(string nama)
 {
     for (size_t i = 0; i < nama.length(); i++)
     {
@@ -123,6 +123,20 @@ bool cekUsernameDuplikat(string usernameBaru)
     }
     fileVisitor.close();
     return false;
+}
+
+reservasi* cariReservasiDariId(int idCari)
+{
+    reservasi *ptrRes = reservasiList;
+    for (int i = 0; i < jumlahreservasi; i++)
+    {
+        if (ptrRes->idReservasi == idCari)
+        {
+            return ptrRes;
+        }
+        ptrRes++;
+    }
+    return nullptr;
 }
 
 void clearScreen()
@@ -233,7 +247,7 @@ void mainmenu()
             cout << "Masukkan Nama Lengkap  : ";
             getline(cin >> ws, visit[jumlahvisitor].nama);
             cout << "Masukkan No. Telepon   : ";
-            getline(cin >> ws, visit[jumlahvisitor].noTelp);        
+            getline(cin >> ws, visit[jumlahvisitor].noTelp);
             cout << "Masukkan Email         : ";
             getline(cin >> ws, visit[jumlahvisitor].email);
             cout << "--------------------------------------------------\n";
@@ -263,7 +277,7 @@ void mainmenu()
                     ptr_visitor_aktif = &visit[jumlahvisitor];
                     fileVisitor.close();
                     jumlahvisitor++;
-                    cout << "Registrasi Berhasil!\n";
+                    cout << GREEN << "Registrasi Berhasil!" << RESET << "\n";
                     waitEnter();
                 }
                 else
@@ -876,48 +890,40 @@ void batalkanReservasi()
         break;
     }
 
-    bool ditemukan = false;
-    for (int i = 0; i < jumlahreservasi; i++)
-    {
-        if (reservasiList[i].idReservasi == idCari && reservasiList[i].usernameVisitor == username_aktif)
-        {
-            ditemukan = true;
+    reservasi *ptrRes = cariReservasiDariId(idCari);
 
-            if (reservasiList[i].status != "Menunggu")
-            {
-                cout << "Gagal! Reservasi tidak bisa dibatalkan karena statusnya sudah '" << reservasiList[i].status << "'.";
-                cin.ignore(1000,'\n');
-                waitEnter();
-                return;
-            }
-            else
-            {
-                reservasiList[i].status = "Dibatalkan";
-
-                ofstream fileReservasi("reservasi.txt", ios::trunc);
-                for (int j = 0; j < jumlahreservasi; j++)
-                {
-                    fileReservasi << reservasiList[j].idReservasi << " | "
-                                  << reservasiList[j].usernameVisitor << " | "
-                                  << reservasiList[j].namaPaket << " | "
-                                  << reservasiList[j].tanggal << " | "
-                                  << reservasiList[j].durasi << " | "
-                                  << reservasiList[j].harga << " | "
-                                  << reservasiList[j].totalBiaya << " | "
-                                  << reservasiList[j].status << endl;
-                }
-                fileReservasi.close();
-                cout << "Sukses! Reservasi dengan ID " << idCari << " telah dibatalkan.";
-            }
-            
-            break;
-        }
-    }
-
-    if (!ditemukan)
+    if (ptrRes == nullptr || (ptr_visitor_aktif != nullptr && ptrRes->usernameVisitor != ptr_visitor_aktif->username))
     {
         cout << "ID Reservasi tidak ditemukan atau bukan milik akun Anda.\n";
+        cin.ignore(1000,'\n');
+        waitEnter();
+        return;
     }
+
+    if (ptrRes->status != "Menunggu")
+    {
+        cout << "Gagal! Reservasi tidak bisa dibatalkan karena statusnya sudah '" << ptrRes->status << "'.";
+        cin.ignore(1000,'\n');
+        waitEnter();
+        return;
+    }
+
+    ptrRes->status = "Dibatalkan";
+    ofstream fileReservasi("reservasi.txt", ios::trunc);
+    for (int j = 0; j < jumlahreservasi; j++)
+    {
+        fileReservasi << reservasiList[j].idReservasi << " | "
+                      << reservasiList[j].usernameVisitor << " | "
+                      << reservasiList[j].namaPaket << " | "
+                      << reservasiList[j].tanggal << " | "
+                      << reservasiList[j].durasi << " | "
+                      << reservasiList[j].harga << " | "
+                      << reservasiList[j].totalBiaya << " | "
+                      << reservasiList[j].status << endl;
+    }
+    fileReservasi.close();
+    cout << "Sukses! Reservasi dengan ID " << idCari << " telah dibatalkan.";
+
     cin.ignore(1000,'\n');
     waitEnter();
 }
@@ -983,7 +989,7 @@ void cariVisitor()
     bool ditemukan = false;
     for (int i = 0; i < jumlahvisitor; i++)
     {
-        if (Lower(visit[i].username) == Lower(keyword) || Lower(visit[i].nama) == Lower(keyword))
+        if (UppercaseToLower(visit[i].username) == UppercaseToLower(keyword) || UppercaseToLower(visit[i].nama) == UppercaseToLower(keyword))
         {
             cout << "Data Pelanggan Ditemukan:\n\n";
             cout << "Username     : " << visit[i].username << endl;
@@ -1471,77 +1477,71 @@ void konfirmasiReservasi()
         waitEnter();
         return;
     }
-    bool ditemukan = false;
-    for (int i = 0; i < jumlahreservasi; i++)
+
+    reservasi *ptrRes = cariReservasiDariId(idCari);
+
+    if (ptrRes == nullptr)
     {
-        if (reservasiList[i].idReservasi == idCari)
-        {
-            ditemukan = true;
-            if (reservasiList[i].status != "Menunggu")
-            {
-                cout << "Gagal! Status reservasi sudah '" << reservasiList[i].status << "'.\n";
-                cin.ignore(1000,'\n');
-                waitEnter();
-            }
-            else
-            {
-                char konfirmasi;
-                cout << "Yakin konfirmasi reservasi ID " << idCari << "? (Y/N): ";
-                cin >> konfirmasi;
-
-                if (konfirmasi == 'y' || konfirmasi == 'Y')
-                {
-                    reservasiList[i].status = "Dikonfirmasi";
-
-                    ofstream fileReservasi("reservasi.txt", ios::trunc);
-                    for (int j = 0; j < jumlahreservasi; j++)
-                    {
-                        fileReservasi << reservasiList[j].idReservasi << " | "
-                                      << reservasiList[j].usernameVisitor << " | "
-                                      << reservasiList[j].namaPaket << " | "
-                                      << reservasiList[j].tanggal << " | "
-                                      << reservasiList[j].durasi << " | "
-                                      << reservasiList[j].harga << " | "
-                                      << reservasiList[j].totalBiaya << " | "
-                                      << reservasiList[j].status << endl;
-                    }
-                    fileReservasi.close();
-                    cout << "Reservasi ID " << idCari << " berhasil dikonfirmasi!\n";
-                }
-                else if (konfirmasi == 'n' || konfirmasi == 'N')
-                {
-                    cout << "Konfirmasi dibatalkan.";
-                    cin.ignore(1000,'\n');
-                    waitEnter();
-                }
-                else
-                {
-                    cout << "Input tidak valid, konfirmasi dibatalkan.";
-                    cin.ignore(1000,'\n');
-                    waitEnter();
-                }
-            }
-            break;
-        }
-    }
-
-    if (!ditemukan){
         cout << "ID Reservasi tidak ditemukan.";
         cin.ignore(1000,'\n');
         waitEnter();
+        return;
     }
 
+    if (ptrRes->status != "Menunggu")
+    {
+        cout << "Gagal! Status reservasi sudah '" << ptrRes->status << "'.\n";
+        cin.ignore(1000,'\n');
+        waitEnter();
+        return;
+    }
+
+    char konfirmasi;
+    cout << "Yakin konfirmasi reservasi ID " << idCari << "? (Y/N): ";
+    cin >> konfirmasi;
+
+    if (konfirmasi == 'y' || konfirmasi == 'Y')
+    {
+        ptrRes->status = "Dikonfirmasi";
+        ofstream fileReservasi("reservasi.txt", ios::trunc);
+    for (int j = 0; j < jumlahreservasi; j++)
+    {
+        fileReservasi << reservasiList[j].idReservasi << " | "
+                      << reservasiList[j].usernameVisitor << " | "
+                      << reservasiList[j].namaPaket << " | "
+                      << reservasiList[j].tanggal << " | "
+                      << reservasiList[j].durasi << " | "
+                      << reservasiList[j].harga << " | "
+                      << reservasiList[j].totalBiaya << " | "
+                      << reservasiList[j].status << endl;
+    }
+    fileReservasi.close();
+        cout << "Reservasi ID " << idCari << " berhasil dikonfirmasi!\n";
+    }
+    else if (konfirmasi == 'n' || konfirmasi == 'N')
+    {
+        cout << "Konfirmasi dibatalkan.";
+        cin.ignore(1000,'\n');
+        waitEnter();
+        return;
+    }
+    else
+    {
+        cout << "Input tidak valid, konfirmasi dibatalkan.";
+        cin.ignore(1000,'\n');
+        waitEnter();
+        return;
+    }
+
+    cin.ignore(1000,'\n');
+    waitEnter();
 }
 void batalkanReservasiAdmin()
 {
     clearScreen();
-    cout << CYAN << "+----------------------------------------+\n"
-         << RESET;
-    cout << CYAN << "|" << RESET << YELLOW << BOLD << "            BATALKAN RESERVASI ADMIN          " << RESET << CYAN << "|\n"
-         << RESET;
-    cout << CYAN << "+" << RESET << YELLOW << BOLD << "----------------------------------------" << RESET << CYAN << "+\n"
-         << RESET;
-
+    cout << CYAN << "+----------------------------------------+\n"<< RESET;
+    cout << CYAN << "|" << RESET << YELLOW << BOLD << "          BATALKAN RESERVASI ADMIN      " << RESET << CYAN << "|\n"<< RESET;
+    cout << CYAN << "+----------------------------------------+\n"<< RESET;
     if (jumlahreservasi == 0)
     {
         cout << "Belum ada data reservasi.\n";
@@ -1581,65 +1581,63 @@ void batalkanReservasiAdmin()
         return;
     }
 
-    bool ditemukan = false;
-    for (int i = 0; i < jumlahreservasi; i++)
+    reservasi *ptrRes = cariReservasiDariId(idCari);
+
+    if (ptrRes == nullptr)
     {
-        if (reservasiList[i].idReservasi == idCari)
-        {
-            ditemukan = true;
-            if (reservasiList[i].status == "Dibatalkan")
-            {
-                cout << "Reservasi ini sudah dibatalkan sebelumnya.";
-                cin.ignore(1000,'\n');
-                waitEnter();
-            }
-            else
-            {
-                char konfirmasi;
-                cout << "Yakin batalkan reservasi ID " << idCari << "? (Y/N): ";
-                cin >> konfirmasi;
-
-                if (konfirmasi == 'y' || konfirmasi == 'Y')
-                {
-                    reservasiList[i].status = "Dibatalkan";
-
-                    ofstream fileReservasi("reservasi.txt", ios::trunc);
-                    for (int j = 0; j < jumlahreservasi; j++)
-                    {
-                        fileReservasi << reservasiList[j].idReservasi << " | "
-                                      << reservasiList[j].usernameVisitor << " | "
-                                      << reservasiList[j].namaPaket << " | "
-                                      << reservasiList[j].tanggal << " | "
-                                      << reservasiList[j].durasi << " | "
-                                      << reservasiList[j].harga << " | "
-                                      << reservasiList[j].totalBiaya << " | "
-                                      << reservasiList[j].status << endl;
-                    }
-                    fileReservasi.close();
-                    cout << "Reservasi ID " << idCari << " berhasil dibatalkan oleh admin.\n";
-                }
-                else if (konfirmasi == 'n' || konfirmasi == 'N')
-                {
-                    cout << "Pembatalan dibatalkan.";
-                    cin.ignore(1000,'\n');
-                    waitEnter();
-                }
-                else
-                {
-                    cout << "Input tidak valid, pembatalan dibatalkan.";
-                    cin.ignore(1000,'\n');
-                    waitEnter();
-                }
-            }
-            break;
-        }
-    }
-
-    if (!ditemukan){
         cout << "ID Reservasi tidak ditemukan.";
         cin.ignore(1000,'\n');
         waitEnter();
+        return;
     }
+
+    if (ptrRes->status == "Dibatalkan")
+    {
+        cout << "Reservasi ini sudah dibatalkan sebelumnya.";
+        cin.ignore(1000,'\n');
+        waitEnter();
+        return;
+    }
+
+    char konfirmasi;
+    cout << "Yakin batalkan reservasi ID " << idCari << "? (Y/N): ";
+    cin >> konfirmasi;
+
+    if (konfirmasi == 'y' || konfirmasi == 'Y')
+    {
+        ptrRes->status = "Dibatalkan";
+         ofstream fileReservasi("reservasi.txt", ios::trunc);
+    for (int j = 0; j < jumlahreservasi; j++)
+    {
+        fileReservasi << reservasiList[j].idReservasi << " | "
+                      << reservasiList[j].usernameVisitor << " | "
+                      << reservasiList[j].namaPaket << " | "
+                      << reservasiList[j].tanggal << " | "
+                      << reservasiList[j].durasi << " | "
+                      << reservasiList[j].harga << " | "
+                      << reservasiList[j].totalBiaya << " | "
+                      << reservasiList[j].status << endl;
+    }
+    fileReservasi.close();
+        cout << "Reservasi ID " << idCari << " berhasil dibatalkan oleh admin.\n";
+    }
+    else if (konfirmasi == 'n' || konfirmasi == 'N')
+    {
+        cout << "Pembatalan dibatalkan.";
+        cin.ignore(1000,'\n');
+        waitEnter();
+        return;
+    }
+    else
+    {
+        cout << "Input tidak valid, pembatalan dibatalkan.";
+        cin.ignore(1000,'\n');
+        waitEnter();
+        return;
+    }
+
+    cin.ignore(1000,'\n');
+    waitEnter();
 }
 
 int main()
